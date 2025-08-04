@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust Adventures - Travel Blog</title>
+    <title>NorCal Surf Adventures - West Coast Surfing</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
             min-height: 100vh;
         }
         .header {
@@ -32,7 +32,7 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #333;
+            color: #1e3c72;
             text-decoration: none;
         }
         .nav-links {
@@ -40,13 +40,13 @@
             gap: 2rem;
         }
         .nav-links a {
-            color: #333;
+            color: #1e3c72;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
         .nav-links a:hover {
-            color: #667eea;
+            color: #74b9ff;
         }
         .container {
             max-width: 1200px;
@@ -90,37 +90,79 @@
             margin-bottom: 2rem;
         }
         .section h2 {
-            color: #333;
-            border-bottom: 3px solid #667eea;
+            color: #1e3c72;
+            border-bottom: 3px solid #74b9ff;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
-        .blog-post {
-            background: #f8f9fa;
+        .surf-spot {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
             border-radius: 10px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #74b9ff;
         }
-        .blog-post:hover {
+        .surf-spot:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .blog-post h3 {
-            color: #333;
+        .surf-spot h3 {
+            color: #1e3c72;
             margin-bottom: 0.5rem;
+            font-size: 1.3rem;
         }
-        .blog-post p {
+        .surf-spot p {
             color: #666;
             margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .difficulty.expert {
+            background: #ff6b6b;
+            color: white;
+        }
+        .difficulty.advanced {
+            background: #feca57;
+            color: #333;
+        }
+        .difficulty.intermediate {
+            background: #48dbfb;
+            color: white;
+        }
+        .difficulty.beginner {
+            background: #1dd1a1;
+            color: white;
         }
         .read-more {
-            color: #667eea;
+            color: #1e3c72;
             text-decoration: none;
             font-weight: 500;
         }
         .read-more:hover {
             text-decoration: underline;
+        }
+        .external-link {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .external-link:hover {
+            text-decoration: underline;
+        }
+        .external-link::after {
+            content: "↗";
+            font-size: 0.8rem;
         }
         .category-list {
             list-style: none;
@@ -130,7 +172,7 @@
             margin-bottom: 0.5rem;
         }
         .category-list a {
-            color: #333;
+            color: #1e3c72;
             text-decoration: none;
             padding: 0.5rem;
             display: block;
@@ -138,7 +180,7 @@
             transition: background-color 0.3s;
         }
         .category-list a:hover {
-            background-color: #f0f0f0;
+            background-color: #e3f2fd;
         }
         .footer {
             background: rgba(255, 255, 255, 0.95);
@@ -155,7 +197,7 @@
             margin-top: 1rem;
         }
         .social-links a {
-            color: #667eea;
+            color: #1e3c72;
             text-decoration: none;
             margin: 0 1rem;
             font-weight: 500;
@@ -166,7 +208,7 @@
         .featured-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #1e3c72, #74b9ff);
             border-radius: 10px;
             margin-bottom: 1rem;
             display: flex;
@@ -176,16 +218,47 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
+        .wave-icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+        .external-resources {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid #74b9ff;
+        }
+        .external-resources h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+        .external-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .external-link-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .external-link-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <nav class="nav">
-            <a href="/" class="logo">🌍 Wanderlust Adventures</a>
+            <a href="/" class="logo">🌊 NorCal Surf Adventures</a>
             <div class="nav-links">
-                <a href="/destinations">Destinations</a>
-                <a href="/travel-tips">Travel Tips</a>
-                <a href="/photography">Photography</a>
+                <a href="/spots">Surf Spots</a>
+                <a href="/conditions">Conditions</a>
+                <a href="/gear">Gear Guide</a>
                 <a href="/about">About</a>
                 <a href="/contact">Contact</a>
             </div>
@@ -194,109 +267,161 @@
 
     <div class="container">
         <div class="hero">
-            <h1>Explore the World</h1>
-            <p>Discover amazing destinations, travel tips, and unforgettable adventures</p>
+            <h1>Ride the NorCal Waves</h1>
+            <p>Discover the legendary surf spots of Northern California's rugged coastline</p>
         </div>
 
         <div class="content-grid">
             <main class="main-content">
                 <section class="section">
-                    <h2>Latest Adventures</h2>
+                    <h2>Featured Surf Spots</h2>
                     
-                    <article class="blog-post">
-                        <div class="featured-image">🏔️ Mountain Adventure</div>
-                        <h3>Hiking the Swiss Alps: A Complete Guide</h3>
-                        <p>Discover the breathtaking trails and stunning vistas of the Swiss Alps. From beginner-friendly paths to challenging summit climbs, this guide covers everything you need to know for your mountain adventure.</p>
-                        <a href="/destinations/swiss-alps-hiking-guide" class="read-more">Read More →</a>
+                    <article class="surf-spot">
+                        <div class="featured-image">🏄‍♂️ Mavericks</div>
+                        <span class="difficulty expert">Expert Level</span>
+                        <h3>Mavericks - The Big Wave Mecca</h3>
+                        <p>Located off the coast of Half Moon Bay, Mavericks is one of the most challenging big wave surf spots in the world. With waves reaching up to 60 feet, this legendary break is only for the most experienced surfers. The spot works best during winter storms and requires precise timing and massive courage.</p>
+                        <a href="/spots/mavericks" class="read-more">Read More →</a>
+                        <a href="https://www.surfline.com/surf-report/mavericks/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
                     </article>
 
-                    <article class="blog-post">
-                        <div class="featured-image">🏖️ Beach Paradise</div>
-                        <h3>Hidden Beaches of Bali: Beyond the Tourist Traps</h3>
-                        <p>Escape the crowds and discover Bali's most pristine beaches. From secluded coves to untouched shorelines, find your perfect slice of paradise away from the tourist hotspots.</p>
-                        <a href="/destinations/bali-hidden-beaches" class="read-more">Read More →</a>
+                    <article class="surf-spot">
+                        <div class="featured-image">🏄‍♀️ Steamer Lane</div>
+                        <span class="difficulty advanced">Advanced Level</span>
+                        <h3>Steamer Lane - Santa Cruz Classic</h3>
+                        <p>Steamer Lane in Santa Cruz is a world-famous right-hand point break that offers consistent waves year-round. This spot is known for its long, peeling waves and is a favorite among experienced surfers. The Lane works best on northwest swells and can handle waves from 3 to 20 feet.</p>
+                        <a href="/spots/steamer-lane" class="read-more">Read More →</a>
+                        <a href="https://www.surfline.com/surf-report/steamer-lane/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
                     </article>
 
-                    <article class="blog-post">
-                        <div class="featured-image">🏛️ Cultural Heritage</div>
-                        <h3>Exploring Ancient Rome: A Historical Journey</h3>
-                        <p>Step back in time and explore the wonders of ancient Rome. From the Colosseum to the Roman Forum, discover the rich history and architectural marvels of the Eternal City.</p>
-                        <a href="/destinations/ancient-rome-guide" class="read-more">Read More →</a>
+                    <article class="surf-spot">
+                        <div class="featured-image">🏖️ Stinson Beach</div>
+                        <span class="difficulty intermediate">Intermediate Level</span>
+                        <h3>Stinson Beach - Family-Friendly Waves</h3>
+                        <p>Stinson Beach offers a more forgiving surf experience perfect for intermediate surfers and families. Located in Marin County, this beach break provides consistent waves and a beautiful setting. The waves are generally smaller and more manageable, making it ideal for learning and progression.</p>
+                        <a href="/spots/stinson-beach" class="read-more">Read More →</a>
+                        <a href="https://www.surfline.com/surf-report/stinson-beach/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
                     </article>
 
-                    <article class="blog-post">
-                        <div class="featured-image">🍜 Food Adventure</div>
-                        <h3>Street Food Tour of Bangkok: A Culinary Adventure</h3>
-                        <p>Embark on a delicious journey through Bangkok's vibrant street food scene. From pad thai to mango sticky rice, discover the authentic flavors of Thailand's capital.</p>
-                        <a href="/destinations/bangkok-street-food" class="read-more">Read More →</a>
+                    <article class="surf-spot">
+                        <div class="featured-image">🏰 Fort Point</div>
+                        <span class="difficulty advanced">Advanced Level</span>
+                        <h3>Fort Point - Urban Surfing Under the Bridge</h3>
+                        <p>Fort Point, located directly under the Golden Gate Bridge, offers a unique urban surfing experience. This powerful right-hand point break works best on large northwest swells and provides challenging waves in an iconic San Francisco setting. The spot requires advanced skills and careful attention to tides.</p>
+                        <a href="/spots/fort-point" class="read-more">Read More →</a>
+                        <a href="https://www.surfline.com/surf-report/fort-point/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
                     </article>
                 </section>
 
                 <section class="section">
-                    <h2>Travel Resources</h2>
-                    <div class="blog-post">
-                        <h3>Essential Travel Planning Tools</h3>
-                        <p>Make your next trip planning easier with these essential tools and resources.</p>
-                        <a href="/travel-tips/planning-tools" class="read-more">View Resources →</a>
+                    <h2>Surf Resources</h2>
+                    <div class="surf-spot">
+                        <h3>Essential Surf Gear Guide</h3>
+                        <p>Get the right equipment for NorCal's challenging conditions, from wetsuits to boards.</p>
+                        <a href="/gear/equipment-guide" class="read-more">View Guide →</a>
                     </div>
-                    <div class="blog-post">
-                        <h3>Photography Equipment Guide</h3>
-                        <p>Capture your travel memories with the right photography gear and techniques.</p>
-                        <a href="/photography/equipment-guide" class="read-more">Learn More →</a>
+                    <div class="surf-spot">
+                        <h3>Weather & Tide Reports</h3>
+                        <p>Stay updated with real-time conditions for all NorCal surf spots.</p>
+                        <a href="/conditions/reports" class="read-more">Check Conditions →</a>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="external-resources">
+                        <h3>🌊 External Surf Resources</h3>
+                        <div class="external-links-grid">
+                            <div class="external-link-item">
+                                <h4>Surf Reports</h4>
+                                <a href="https://www.surfline.com" class="external-link" target="_blank">Surfline</a><br>
+                                <a href="https://www.magicseaweed.com" class="external-link" target="_blank">Magic Seaweed</a><br>
+                                <a href="https://www.swellinfo.com" class="external-link" target="_blank">SwellInfo</a>
+                            </div>
+                            <div class="external-link-item">
+                                <h4>Weather & Tides</h4>
+                                <a href="https://www.noaa.gov" class="external-link" target="_blank">NOAA Weather</a><br>
+                                <a href="https://tidesandcurrents.noaa.gov" class="external-link" target="_blank">NOAA Tides</a><br>
+                                <a href="https://www.windfinder.com" class="external-link" target="_blank">Windfinder</a>
+                            </div>
+                            <div class="external-link-item">
+                                <h4>Surf Shops</h4>
+                                <a href="https://www.realwatersports.com" class="external-link" target="_blank">Real Water Sports</a><br>
+                                <a href="https://www.surfnsea.com" class="external-link" target="_blank">Surf N Sea</a><br>
+                                <a href="https://www.surfline.com/shop" class="external-link" target="_blank">Surfline Shop</a>
+                            </div>
+                            <div class="external-link-item">
+                                <h4>Surf Organizations</h4>
+                                <a href="https://www.surfrider.org" class="external-link" target="_blank">Surfrider Foundation</a><br>
+                                <a href="https://www.worldsurfleague.com" class="external-link" target="_blank">World Surf League</a><br>
+                                <a href="https://www.surfingamerica.org" class="external-link" target="_blank">Surfing America</a>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
 
             <aside class="sidebar">
                 <section class="section">
-                    <h2>Popular Destinations</h2>
+                    <h2>NorCal Surf Spots</h2>
                     <ul class="category-list">
-                        <li><a href="/destinations/japan">Japan</a></li>
-                        <li><a href="/destinations/iceland">Iceland</a></li>
-                        <li><a href="/destinations/new-zealand">New Zealand</a></li>
-                        <li><a href="/destinations/morocco">Morocco</a></li>
-                        <li><a href="/destinations/peru">Peru</a></li>
-                        <li><a href="/destinations/australia">Australia</a></li>
-                        <li><a href="/destinations/croatia">Croatia</a></li>
-                        <li><a href="/destinations/portugal">Portugal</a></li>
+                        <li><a href="/spots/mavericks">Mavericks</a></li>
+                        <li><a href="/spots/steamer-lane">Steamer Lane</a></li>
+                        <li><a href="/spots/stinson-beach">Stinson Beach</a></li>
+                        <li><a href="/spots/fort-point">Fort Point</a></li>
+                        <li><a href="/spots/pleasure-point">Pleasure Point</a></li>
+                        <li><a href="/spots/rockaway">Rockaway Beach</a></li>
+                        <li><a href="/spots/ob">Ocean Beach</a></li>
+                        <li><a href="/spots/linda-mar">Linda Mar</a></li>
                     </ul>
                 </section>
 
                 <section class="section">
-                    <h2>Travel Categories</h2>
+                    <h2>Surf Categories</h2>
                     <ul class="category-list">
-                        <li><a href="/category/adventure">Adventure Travel</a></li>
-                        <li><a href="/category/culture">Cultural Experiences</a></li>
-                        <li><a href="/category/food">Food & Dining</a></li>
-                        <li><a href="/category/budget">Budget Travel</a></li>
-                        <li><a href="/category/luxury">Luxury Travel</a></li>
-                        <li><a href="/category/solo">Solo Travel</a></li>
-                        <li><a href="/category/family">Family Travel</a></li>
-                        <li><a href="/category/road-trip">Road Trips</a></li>
+                        <li><a href="/category/big-wave">Big Wave Surfing</a></li>
+                        <li><a href="/category/point-breaks">Point Breaks</a></li>
+                        <li><a href="/category/beach-breaks">Beach Breaks</a></li>
+                        <li><a href="/category/reef-breaks">Reef Breaks</a></li>
+                        <li><a href="/category/beginner-friendly">Beginner Friendly</a></li>
+                        <li><a href="/category/advanced">Advanced Spots</a></li>
+                        <li><a href="/category/winter-spots">Winter Spots</a></li>
+                        <li><a href="/category/summer-spots">Summer Spots</a></li>
                     </ul>
                 </section>
 
                 <section class="section">
-                    <h2>Travel Services</h2>
+                    <h2>Surf Services</h2>
                     <ul class="category-list">
-                        <li><a href="/services/travel-insurance">Travel Insurance</a></li>
-                        <li><a href="/services/visa-assistance">Visa Assistance</a></li>
-                        <li><a href="/services/booking-support">Booking Support</a></li>
-                        <li><a href="/services/travel-consultation">Travel Consultation</a></li>
-                        <li><a href="/services/photography-workshops">Photography Workshops</a></li>
-                        <li><a href="/services/guided-tours">Guided Tours</a></li>
+                        <li><a href="/services/surf-lessons">Surf Lessons</a></li>
+                        <li><a href="/services/board-rental">Board Rental</a></li>
+                        <li><a href="/services/wetsuit-rental">Wetsuit Rental</a></li>
+                        <li><a href="/services/surf-guides">Surf Guides</a></li>
+                        <li><a href="/services/safety-courses">Safety Courses</a></li>
+                        <li><a href="/services/competitions">Surf Competitions</a></li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Quick Links</h2>
+                    <ul class="category-list">
+                        <li><a href="https://www.surfline.com" target="_blank" class="external-link">Surfline Reports</a></li>
+                        <li><a href="https://www.magicseaweed.com" target="_blank" class="external-link">Magic Seaweed</a></li>
+                        <li><a href="https://tidesandcurrents.noaa.gov" target="_blank" class="external-link">NOAA Tides</a></li>
+                        <li><a href="https://www.windfinder.com" target="_blank" class="external-link">Windfinder</a></li>
+                        <li><a href="https://www.surfrider.org" target="_blank" class="external-link">Surfrider Foundation</a></li>
+                        <li><a href="https://www.worldsurfleague.com" target="_blank" class="external-link">World Surf League</a></li>
                     </ul>
                 </section>
 
                 <section class="section">
                     <h2>Connect With Us</h2>
                     <ul class="category-list">
-                        <li><a href="/newsletter">Newsletter Signup</a></li>
+                        <li><a href="/newsletter">Surf Report Newsletter</a></li>
                         <li><a href="/instagram">Instagram</a></li>
                         <li><a href="/youtube">YouTube Channel</a></li>
                         <li><a href="/facebook">Facebook Page</a></li>
                         <li><a href="/twitter">Twitter</a></li>
-                        <li><a href="/pinterest">Pinterest</a></li>
+                        <li><a href="/surfline">Surfline Integration</a></li>
                     </ul>
                 </section>
             </aside>
@@ -304,7 +429,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 Wanderlust Adventures. All rights reserved.</p>
+        <p>&copy; 2024 NorCal Surf Adventures. All rights reserved.</p>
         <div class="social-links">
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/terms-of-service">Terms of Service</a>

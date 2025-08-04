@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Travel Blog HTTP server with realistic URLs and hidden test scenarios
+NorCal Surf Adventures HTTP server with realistic surf URLs and hidden test scenarios
 """
 
 import http.server
@@ -10,7 +10,7 @@ import time
 import os
 from urllib.parse import urlparse, parse_qs
 
-class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
         """Handle GET requests with special cases for testing"""
@@ -19,35 +19,33 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         
         print(f"Request: {self.path}")
         
-        # Handle hanging requests (disguised as real travel content)
-        if path in ['/destinations/swiss-alps-hiking-guide', '/destinations/bali-hidden-beaches', 
-                   '/destinations/ancient-rome-guide', '/destinations/bangkok-street-food',
-                   '/travel-tips/planning-tools', '/photography/equipment-guide']:
+        # Handle hanging requests (disguised as surf spot guides)
+        if path in ['/spots/mavericks', '/spots/steamer-lane', '/spots/stinson-beach', 
+                   '/spots/fort-point', '/gear/equipment-guide', '/conditions/reports']:
             self.handle_hanging_request(path)
             return
         
-        # Handle 404 errors (realistic missing content)
-        if path in ['/destinations/japan', '/destinations/iceland', '/destinations/new-zealand',
-                   '/destinations/morocco', '/destinations/peru', '/destinations/australia',
-                   '/destinations/croatia', '/destinations/portugal', '/category/adventure',
-                   '/category/culture', '/category/food', '/category/budget', '/category/luxury',
-                   '/category/solo', '/category/family', '/category/road-trip',
-                   '/services/travel-insurance', '/services/visa-assistance', '/services/booking-support',
-                   '/services/travel-consultation', '/services/photography-workshops', '/services/guided-tours',
-                   '/newsletter', '/instagram', '/youtube', '/facebook', '/twitter', '/pinterest',
+        # Handle 404 errors (realistic missing surf content)
+        if path in ['/spots/pleasure-point', '/spots/rockaway', '/spots/ob', '/spots/linda-mar',
+                   '/category/big-wave', '/category/point-breaks', '/category/beach-breaks',
+                   '/category/reef-breaks', '/category/beginner-friendly', '/category/advanced',
+                   '/category/winter-spots', '/category/summer-spots',
+                   '/services/surf-lessons', '/services/board-rental', '/services/wetsuit-rental',
+                   '/services/surf-guides', '/services/safety-courses', '/services/competitions',
+                   '/newsletter', '/instagram', '/youtube', '/facebook', '/twitter', '/surfline',
                    '/privacy-policy', '/terms-of-service', '/sitemap', '/advertising', '/partnerships']:
             self.send_404_error(path)
             return
         
         # Handle working pages
-        if path == '/destinations':
-            self.send_destinations_page()
+        if path == '/spots':
+            self.send_spots_page()
             return
-        elif path == '/travel-tips':
-            self.send_travel_tips_page()
+        elif path == '/conditions':
+            self.send_conditions_page()
             return
-        elif path == '/photography':
-            self.send_photography_page()
+        elif path == '/gear':
+            self.send_gear_page()
             return
         elif path == '/about':
             self.send_about_page()
@@ -67,49 +65,49 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_404_error(path)
     
     def handle_hanging_request(self, path):
-        """Handle requests that should hang/never respond (disguised as travel content)"""
+        """Handle requests that should hang/never respond (disguised as surf content)"""
         print(f"Hanging request detected: {path}")
         
         # Different hanging behaviors based on the path
-        if path == '/destinations/swiss-alps-hiking-guide':
-            # Hangs forever (like a slow loading page)
+        if path == '/spots/mavericks':
+            # Hangs forever (like a big wave that never comes)
             while True:
                 time.sleep(1)
-        elif path == '/destinations/bali-hidden-beaches':
+        elif path == '/spots/steamer-lane':
             # Very long delay (30 seconds)
             time.sleep(30)
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(b"<h1>Bali Hidden Beaches Guide</h1><p>Finally loaded after 30 seconds!</p>")
-        elif path == '/destinations/ancient-rome-guide':
+            self.wfile.write(b"<h1>Steamer Lane Guide</h1><p>Finally loaded after 30 seconds!</p>")
+        elif path == '/spots/stinson-beach':
             # Infinite loop
             while True:
                 pass
-        elif path == '/destinations/bangkok-street-food':
+        elif path == '/spots/fort-point':
             # Slow response (10 seconds)
             time.sleep(10)
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(b"<h1>Bangkok Street Food Guide</h1><p>Slow response after 10 seconds</p>")
-        elif path == '/travel-tips/planning-tools':
+            self.wfile.write(b"<h1>Fort Point Guide</h1><p>Slow response after 10 seconds</p>")
+        elif path == '/gear/equipment-guide':
             # 60 second delay
             time.sleep(60)
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(b"<h1>Travel Planning Tools</h1><p>Blocked request finally responded</p>")
-        elif path == '/photography/equipment-guide':
+            self.wfile.write(b"<h1>Surf Equipment Guide</h1><p>Blocked request finally responded</p>")
+        elif path == '/conditions/reports':
             # 45 second delay
             time.sleep(45)
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(b"<h1>Photography Equipment Guide</h1><p>Long loading time completed</p>")
+            self.wfile.write(b"<h1>Surf Conditions Report</h1><p>Long loading time completed</p>")
     
     def send_404_error(self, path):
-        """Send a 404 error response with travel-themed styling"""
+        """Send a 404 error response with surf-themed styling"""
         self.send_response(404)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -118,11 +116,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Page Not Found - Wanderlust Adventures</title>
+            <title>Spot Not Found - NorCal Surf Adventures</title>
             <style>
                 body {{ 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 0;
                     min-height: 100vh;
@@ -157,16 +155,16 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     color: #666;
                 }}
                 a {{ 
-                    color: #667eea; 
+                    color: #1e3c72; 
                     text-decoration: none;
                     font-weight: 500;
                     padding: 0.5rem 1rem;
-                    border: 2px solid #667eea;
+                    border: 2px solid #1e3c72;
                     border-radius: 5px;
                     transition: all 0.3s;
                 }}
                 a:hover {{
-                    background: #667eea;
+                    background: #1e3c72;
                     color: white;
                 }}
             </style>
@@ -174,9 +172,9 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <body>
             <div class="error-container">
                 <div class="error">404</div>
-                <div class="message">Destination Not Found</div>
+                <div class="message">Surf Spot Not Found</div>
                 <div class="path">Requested path: {path}</div>
-                <p style="color: #666; margin: 1rem 0;">This travel destination seems to be off the beaten path.</p>
+                <p style="color: #666; margin: 1rem 0;">This surf spot seems to be off the radar.</p>
                 <a href="/">← Back to Home</a>
             </div>
         </body>
@@ -184,8 +182,8 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html_content.encode())
     
-    def send_destinations_page(self):
-        """Send destinations page"""
+    def send_spots_page(self):
+        """Send surf spots page"""
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -194,11 +192,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Destinations - Wanderlust Adventures</title>
+            <title>Surf Spots - NorCal Surf Adventures</title>
             <style>
                 body { 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
                 }
@@ -210,52 +208,53 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     padding: 2rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                h1 { color: #333; text-align: center; }
-                .destinations-grid {
+                h1 { color: #1e3c72; text-align: center; }
+                .spots-grid {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
                     gap: 2rem;
                     margin-top: 2rem;
                 }
-                .destination-card {
-                    background: #f8f9fa;
+                .spot-card {
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
                     border-radius: 10px;
                     padding: 1.5rem;
                     transition: transform 0.3s;
+                    border-left: 4px solid #74b9ff;
                 }
-                .destination-card:hover {
+                .spot-card:hover {
                     transform: translateY(-5px);
                 }
-                a { color: #667eea; text-decoration: none; }
+                a { color: #1e3c72; text-decoration: none; }
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>🌍 Explore Our Destinations</h1>
-                <div class="destinations-grid">
-                    <div class="destination-card">
-                        <h3>🏔️ Swiss Alps</h3>
-                        <p>Discover breathtaking mountain trails and alpine adventures.</p>
-                        <a href="/destinations/swiss-alps-hiking-guide">Read Guide →</a>
+                <h1>🌊 NorCal Surf Spots</h1>
+                <div class="spots-grid">
+                    <div class="spot-card">
+                        <h3>🏄‍♂️ Mavericks</h3>
+                        <p>The legendary big wave spot off Half Moon Bay.</p>
+                        <a href="/spots/mavericks">Read Guide →</a>
                     </div>
-                    <div class="destination-card">
-                        <h3>🏖️ Bali</h3>
-                        <p>Explore hidden beaches and tropical paradise.</p>
-                        <a href="/destinations/bali-hidden-beaches">Discover Beaches →</a>
+                    <div class="spot-card">
+                        <h3>🏄‍♀️ Steamer Lane</h3>
+                        <p>Santa Cruz's famous right-hand point break.</p>
+                        <a href="/spots/steamer-lane">Read Guide →</a>
                     </div>
-                    <div class="destination-card">
-                        <h3>🏛️ Rome</h3>
-                        <p>Step back in time to ancient Roman civilization.</p>
-                        <a href="/destinations/ancient-rome-guide">Explore History →</a>
+                    <div class="spot-card">
+                        <h3>🏖️ Stinson Beach</h3>
+                        <p>Family-friendly beach break in Marin County.</p>
+                        <a href="/spots/stinson-beach">Read Guide →</a>
                     </div>
-                    <div class="destination-card">
-                        <h3>🍜 Bangkok</h3>
-                        <p>Experience the vibrant street food culture.</p>
-                        <a href="/destinations/bangkok-street-food">Food Tour →</a>
+                    <div class="spot-card">
+                        <h3>🏰 Fort Point</h3>
+                        <p>Urban surfing under the Golden Gate Bridge.</p>
+                        <a href="/spots/fort-point">Read Guide →</a>
                     </div>
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
@@ -263,8 +262,8 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html_content.encode())
     
-    def send_travel_tips_page(self):
-        """Send travel tips page"""
+    def send_conditions_page(self):
+        """Send conditions page"""
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -273,11 +272,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Travel Tips - Wanderlust Adventures</title>
+            <title>Surf Conditions - NorCal Surf Adventures</title>
             <style>
                 body { 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
                 }
@@ -289,26 +288,27 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     padding: 2rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                h1 { color: #333; text-align: center; }
-                .tip-card {
-                    background: #f8f9fa;
+                h1 { color: #1e3c72; text-align: center; }
+                .condition-card {
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
                     border-radius: 10px;
                     padding: 1.5rem;
                     margin: 1rem 0;
+                    border-left: 4px solid #74b9ff;
                 }
-                a { color: #667eea; text-decoration: none; }
+                a { color: #1e3c72; text-decoration: none; }
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>💡 Travel Tips & Resources</h1>
-                <div class="tip-card">
-                    <h3>Essential Planning Tools</h3>
-                    <p>Make your next trip planning easier with these essential tools and resources.</p>
-                    <a href="/travel-tips/planning-tools">View Resources →</a>
+                <h1>🌊 Surf Conditions</h1>
+                <div class="condition-card">
+                    <h3>Real-time Reports</h3>
+                    <p>Get the latest conditions for all NorCal surf spots.</p>
+                    <a href="/conditions/reports">Check Reports →</a>
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
@@ -316,8 +316,8 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html_content.encode())
     
-    def send_photography_page(self):
-        """Send photography page"""
+    def send_gear_page(self):
+        """Send gear page"""
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -326,11 +326,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Photography - Wanderlust Adventures</title>
+            <title>Surf Gear - NorCal Surf Adventures</title>
             <style>
                 body { 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
                 }
@@ -342,26 +342,27 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     padding: 2rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                h1 { color: #333; text-align: center; }
-                .photo-card {
-                    background: #f8f9fa;
+                h1 { color: #1e3c72; text-align: center; }
+                .gear-card {
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
                     border-radius: 10px;
                     padding: 1.5rem;
                     margin: 1rem 0;
+                    border-left: 4px solid #74b9ff;
                 }
-                a { color: #667eea; text-decoration: none; }
+                a { color: #1e3c72; text-decoration: none; }
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>📸 Photography Guide</h1>
-                <div class="photo-card">
+                <h1>🏄‍♂️ Surf Gear Guide</h1>
+                <div class="gear-card">
                     <h3>Equipment Guide</h3>
-                    <p>Capture your travel memories with the right photography gear and techniques.</p>
-                    <a href="/photography/equipment-guide">Learn More →</a>
+                    <p>Get the right equipment for NorCal's challenging conditions.</p>
+                    <a href="/gear/equipment-guide">View Guide →</a>
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
@@ -379,11 +380,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>About - Wanderlust Adventures</title>
+            <title>About - NorCal Surf Adventures</title>
             <style>
                 body { 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
                 }
@@ -395,20 +396,20 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     padding: 2rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                h1 { color: #333; text-align: center; }
-                .content { background: #f8f9fa; border-radius: 10px; padding: 1.5rem; }
-                a { color: #667eea; text-decoration: none; }
+                h1 { color: #1e3c72; text-align: center; }
+                .content { background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }
+                a { color: #1e3c72; text-decoration: none; }
             </style>
         </head>
         <body>
             <div class="container">
-                <h1>About Wanderlust Adventures</h1>
+                <h1>About NorCal Surf Adventures</h1>
                 <div class="content">
-                    <p>We are passionate travelers sharing our adventures and insights from around the world. Our mission is to inspire others to explore, discover, and create unforgettable memories.</p>
-                    <p>From hidden beaches to mountain peaks, from street food to fine dining, we document it all to help you plan your next adventure.</p>
+                    <p>We are passionate surfers sharing our knowledge of Northern California's legendary surf spots. Our mission is to help surfers of all levels discover and safely enjoy the incredible waves along the NorCal coastline.</p>
+                    <p>From the massive waves of Mavericks to the family-friendly breaks of Stinson Beach, we provide comprehensive guides and real-time information to enhance your surfing experience.</p>
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
@@ -426,11 +427,11 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Contact - Wanderlust Adventures</title>
+            <title>Contact - NorCal Surf Adventures</title>
             <style>
                 body { 
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
                 }
@@ -442,21 +443,21 @@ class TravelBlogHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     padding: 2rem;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                h1 { color: #333; text-align: center; }
-                .content { background: #f8f9fa; border-radius: 10px; padding: 1.5rem; }
-                a { color: #667eea; text-decoration: none; }
+                h1 { color: #1e3c72; text-align: center; }
+                .content { background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }
+                a { color: #1e3c72; text-decoration: none; }
             </style>
         </head>
         <body>
             <div class="container">
                 <h1>Contact Us</h1>
                 <div class="content">
-                    <p>Get in touch with us for collaborations, questions, or just to share your travel stories!</p>
-                    <p><strong>Email:</strong> hello@wanderlustadventures.com</p>
-                    <p><strong>Follow us:</strong> @wanderlustadventures</p>
+                    <p>Get in touch with us for surf reports, gear recommendations, or just to share your NorCal surf stories!</p>
+                    <p><strong>Email:</strong> hello@norcalsurfadventures.com</p>
+                    <p><strong>Follow us:</strong> @norcalsurfadventures</p>
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
@@ -486,15 +487,15 @@ def run_server(port=None):
     # Bind to all interfaces for cloud hosting
     host = '0.0.0.0'
     
-    with socketserver.TCPServer((host, port), TravelBlogHTTPRequestHandler) as httpd:
-        print(f"🚀 Travel Blog Server started at http://localhost:{port}")
+    with socketserver.TCPServer((host, port), SurfAdventuresHTTPRequestHandler) as httpd:
+        print(f"🌊 NorCal Surf Adventures Server started at http://localhost:{port}")
         if host == '0.0.0.0':
             print(f"🌐 Server is accessible from external connections")
         print(f"📁 Serving files from: {os.getcwd()}")
         print("🔗 Test the following:")
-        print("   - Working pages: /, /destinations, /travel-tips, /photography, /about, /contact")
-        print("   - 404 errors: /destinations/japan, /category/adventure, /services/travel-insurance")
-        print("   - Hanging requests: /destinations/swiss-alps-hiking-guide, /travel-tips/planning-tools")
+        print("   - Working pages: /, /spots, /conditions, /gear, /about, /contact")
+        print("   - 404 errors: /spots/pleasure-point, /category/big-wave, /services/surf-lessons")
+        print("   - Hanging requests: /spots/mavericks, /spots/steamer-lane, /gear/equipment-guide")
         print("\n⏹️  Press Ctrl+C to stop the server")
         try:
             httpd.serve_forever()
