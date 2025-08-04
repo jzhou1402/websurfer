@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust Adventures - Travel Blog</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .blog-post {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .blog-post:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .blog-post h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .blog-post p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+        .category-list a {
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .category-list a:hover {
+            background-color: #f0f0f0;
+        }
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 15px 15px 0 0;
+        }
+        .footer p {
+            color: #666;
+            margin: 0;
+        }
+        .social-links {
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+        .featured-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🌍 Wanderlust Adventures</a>
+            <div class="nav-links">
+                <a href="/destinations">Destinations</a>
+                <a href="/travel-tips">Travel Tips</a>
+                <a href="/photography">Photography</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Explore the World</h1>
+            <p>Discover amazing destinations, travel tips, and unforgettable adventures</p>
+        </div>
+
+        <div class="content-grid">
+            <main class="main-content">
+                <section class="section">
+                    <h2>Latest Adventures</h2>
+                    
+                    <article class="blog-post">
+                        <div class="featured-image">🏔️ Mountain Adventure</div>
+                        <h3>Hiking the Swiss Alps: A Complete Guide</h3>
+                        <p>Discover the breathtaking trails and stunning vistas of the Swiss Alps. From beginner-friendly paths to challenging summit climbs, this guide covers everything you need to know for your mountain adventure.</p>
+                        <a href="/destinations/swiss-alps-hiking-guide" class="read-more">Read More →</a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="featured-image">🏖️ Beach Paradise</div>
+                        <h3>Hidden Beaches of Bali: Beyond the Tourist Traps</h3>
+                        <p>Escape the crowds and discover Bali's most pristine beaches. From secluded coves to untouched shorelines, find your perfect slice of paradise away from the tourist hotspots.</p>
+                        <a href="/destinations/bali-hidden-beaches" class="read-more">Read More →</a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="featured-image">🏛️ Cultural Heritage</div>
+                        <h3>Exploring Ancient Rome: A Historical Journey</h3>
+                        <p>Step back in time and explore the wonders of ancient Rome. From the Colosseum to the Roman Forum, discover the rich history and architectural marvels of the Eternal City.</p>
+                        <a href="/destinations/ancient-rome-guide" class="read-more">Read More →</a>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="featured-image">🍜 Food Adventure</div>
+                        <h3>Street Food Tour of Bangkok: A Culinary Adventure</h3>
+                        <p>Embark on a delicious journey through Bangkok's vibrant street food scene. From pad thai to mango sticky rice, discover the authentic flavors of Thailand's capital.</p>
+                        <a href="/destinations/bangkok-street-food" class="read-more">Read More →</a>
+                    </article>
+                </section>
+
+                <section class="section">
+                    <h2>Travel Resources</h2>
+                    <div class="blog-post">
+                        <h3>Essential Travel Planning Tools</h3>
+                        <p>Make your next trip planning easier with these essential tools and resources.</p>
+                        <a href="/travel-tips/planning-tools" class="read-more">View Resources →</a>
+                    </div>
+                    <div class="blog-post">
+                        <h3>Photography Equipment Guide</h3>
+                        <p>Capture your travel memories with the right photography gear and techniques.</p>
+                        <a href="/photography/equipment-guide" class="read-more">Learn More →</a>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="sidebar">
+                <section class="section">
+                    <h2>Popular Destinations</h2>
+                    <ul class="category-list">
+                        <li><a href="/destinations/japan">Japan</a></li>
+                        <li><a href="/destinations/iceland">Iceland</a></li>
+                        <li><a href="/destinations/new-zealand">New Zealand</a></li>
+                        <li><a href="/destinations/morocco">Morocco</a></li>
+                        <li><a href="/destinations/peru">Peru</a></li>
+                        <li><a href="/destinations/australia">Australia</a></li>
+                        <li><a href="/destinations/croatia">Croatia</a></li>
+                        <li><a href="/destinations/portugal">Portugal</a></li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Travel Categories</h2>
+                    <ul class="category-list">
+                        <li><a href="/category/adventure">Adventure Travel</a></li>
+                        <li><a href="/category/culture">Cultural Experiences</a></li>
+                        <li><a href="/category/food">Food & Dining</a></li>
+                        <li><a href="/category/budget">Budget Travel</a></li>
+                        <li><a href="/category/luxury">Luxury Travel</a></li>
+                        <li><a href="/category/solo">Solo Travel</a></li>
+                        <li><a href="/category/family">Family Travel</a></li>
+                        <li><a href="/category/road-trip">Road Trips</a></li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Travel Services</h2>
+                    <ul class="category-list">
+                        <li><a href="/services/travel-insurance">Travel Insurance</a></li>
+                        <li><a href="/services/visa-assistance">Visa Assistance</a></li>
+                        <li><a href="/services/booking-support">Booking Support</a></li>
+                        <li><a href="/services/travel-consultation">Travel Consultation</a></li>
+                        <li><a href="/services/photography-workshops">Photography Workshops</a></li>
+                        <li><a href="/services/guided-tours">Guided Tours</a></li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Connect With Us</h2>
+                    <ul class="category-list">
+                        <li><a href="/newsletter">Newsletter Signup</a></li>
+                        <li><a href="/instagram">Instagram</a></li>
+                        <li><a href="/youtube">YouTube Channel</a></li>
+                        <li><a href="/facebook">Facebook Page</a></li>
+                        <li><a href="/twitter">Twitter</a></li>
+                        <li><a href="/pinterest">Pinterest</a></li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Wanderlust Adventures. All rights reserved.</p>
+        <div class="social-links">
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+            <a href="/sitemap">Sitemap</a>
+            <a href="/advertising">Advertising</a>
+            <a href="/partnerships">Partnerships</a>
+        </div>
+    </footer>
+</body>
+</html> 

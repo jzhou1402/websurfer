@@ -1,0 +1,2 @@
+# No external dependencies required - using Python built-in modules only
+# This file is required for deployment platforms 
