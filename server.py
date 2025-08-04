@@ -1,120 +1,64 @@
 #!/usr/bin/env python3
 """
-NorCal Surf Adventures HTTP server with realistic surf URLs and hidden test scenarios
+Simple HTTP Server for NorCal Surf Adventures
+Handles content, 404 errors, hanging requests, and base64 decoded pages
 """
 
 import http.server
 import socketserver
-import threading
-import time
 import os
-from urllib.parse import urlparse, parse_qs
+import time
+import base64
 
 class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
-    
     def do_GET(self):
-        """Handle GET requests with special cases for testing"""
-        parsed_path = urlparse(self.path)
-        path = parsed_path.path
-        
-        print(f"Request: {self.path}")
-        
-        # Handle hanging requests (disguised as surf spot guides)
-        if path in ['/spots/mavericks', '/spots/steamer-lane', '/spots/stinson-beach', 
-                   '/spots/fort-point', '/gear/equipment-guide', '/conditions/reports']:
-            self.handle_hanging_request(path)
-            return
-        
-        # Handle 404 errors (realistic missing surf content)
-        if path in ['/spots/pleasure-point', '/spots/rockaway', '/spots/ob', '/spots/linda-mar',
-                   '/category/big-wave', '/category/point-breaks', '/category/beach-breaks',
-                   '/category/reef-breaks', '/category/beginner-friendly', '/category/advanced',
-                   '/category/winter-spots', '/category/summer-spots',
-                   '/services/surf-lessons', '/services/board-rental', '/services/wetsuit-rental',
-                   '/services/surf-guides', '/services/safety-courses', '/services/competitions',
-                   '/newsletter', '/instagram', '/youtube', '/facebook', '/twitter', '/surfline',
-                   '/privacy-policy', '/terms-of-service', '/sitemap', '/advertising', '/partnerships']:
-            self.send_404_error(path)
-            return
+        """Handle GET requests with custom routing"""
+        path = self.path
         
         # Handle base64 decoded internal pages (leaf nodes)
-        if path in ['/gallery/mavericks-photos/', '/gallery/steamer-lane-photos/',
-                   '/gear/wetsuit-guide/', '/conditions/weather-reports/',
-                   '/spots/surf-reports/', '/spots/tide-reports/']:
+        if path in ['/gallery/mavericks-photos/', '/gear/wetsuit-guide/',
+                   '/conditions/weather-reports/', '/spots/surf-reports/',
+                   '/spots/tide-reports/', '/dynamic/surf-report/',
+                   '/dynamic/forecast/']:
             self.send_base64_page(path)
             return
         
-        # Handle working pages
-        if path == '/spots':
-            self.send_spots_page()
-            return
-        elif path == '/conditions':
-            self.send_conditions_page()
-            return
-        elif path == '/gear':
-            self.send_gear_page()
-            return
-        elif path == '/about':
-            self.send_about_page()
-            return
-        elif path == '/contact':
-            self.send_contact_page()
+        # Handle hanging request
+        if path == '/hang':
+            self.send_hanging_response()
             return
         
-        # Default: serve index.html for root or serve static files
+        # Handle 404 errors for specific paths
+        if path in ['/spots/mavericks/forecast', '/spots/mavericks', 
+                   '/spots/steamer-lane', '/gear/equipment-guide',
+                   '/conditions/reports', '/shop/boards/channel-islands',
+                   '/dynamic/surf-report', '/dynamic/forecast']:
+            self.send_404_response(path)
+            return
+        
+        # Serve the main page for root and other paths
         if path == '/' or path == '/index.html':
-            self.serve_file('index.html')
-        else:
-            # Try to serve as static file, fallback to 404
-            if os.path.exists(path[1:]):  # Remove leading slash
-                super().do_GET()
-            else:
-                self.send_404_error(path)
-    
-    def handle_hanging_request(self, path):
-        """Handle requests that should hang/never respond (disguised as surf content)"""
-        print(f"Hanging request detected: {path}")
+            self.send_main_page()
+            return
         
-        # Different hanging behaviors based on the path
-        if path == '/spots/mavericks':
-            # Hangs forever (like a big wave that never comes)
-            while True:
-                time.sleep(1)
-        elif path == '/spots/steamer-lane':
-            # Very long delay (30 seconds)
-            time.sleep(30)
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"<h1>Steamer Lane Guide</h1><p>Finally loaded after 30 seconds!</p>")
-        elif path == '/spots/stinson-beach':
-            # Infinite loop
-            while True:
-                pass
-        elif path == '/spots/fort-point':
-            # Slow response (10 seconds)
-            time.sleep(10)
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"<h1>Fort Point Guide</h1><p>Slow response after 10 seconds</p>")
-        elif path == '/gear/equipment-guide':
-            # 60 second delay
-            time.sleep(60)
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"<h1>Surf Equipment Guide</h1><p>Blocked request finally responded</p>")
-        elif path == '/conditions/reports':
-            # 45 second delay
-            time.sleep(45)
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"<h1>Surf Conditions Report</h1><p>Long loading time completed</p>")
-    
-    def send_404_error(self, path):
-        """Send a 404 error response with surf-themed styling"""
+        # Default to 404 for unknown paths
+        self.send_404_response(path)
+
+    def send_main_page(self):
+        """Send the main HTML page"""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Read and serve the index.html file
+        try:
+            with open('index.html', 'rb') as f:
+                self.wfile.write(f.read())
+        except FileNotFoundError:
+            self.wfile.write(b"<h1>Error: index.html not found</h1>")
+
+    def send_404_response(self, path):
+        """Send a 404 error response"""
         self.send_response(404)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -123,455 +67,129 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Spot Not Found - NorCal Surf Adventures</title>
+            <title>404 - Page Not Found</title>
             <style>
-                body {{ 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 0;
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }}
-                .error-container {{
-                    background: white;
-                    border-radius: 15px;
-                    padding: 3rem;
-                    text-align: center;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                    max-width: 500px;
-                }}
-                .error {{ 
-                    color: #d32f2f; 
-                    font-size: 4rem; 
-                    margin-bottom: 1rem; 
-                }}
-                .message {{ 
-                    font-size: 1.5rem; 
-                    margin-bottom: 1rem;
-                    color: #333;
-                }}
-                .path {{ 
-                    background: #f5f5f5; 
-                    padding: 1rem; 
-                    border-radius: 5px; 
-                    font-family: monospace;
-                    margin: 1rem 0;
-                    color: #666;
-                }}
-                a {{ 
-                    color: #1e3c72; 
-                    text-decoration: none;
-                    font-weight: 500;
-                    padding: 0.5rem 1rem;
-                    border: 2px solid #1e3c72;
-                    border-radius: 5px;
-                    transition: all 0.3s;
-                }}
-                a:hover {{
-                    background: #1e3c72;
-                    color: white;
-                }}
+                body {{ font-family: Arial, sans-serif; text-align: center; padding: 50px; }}
+                .error {{ color: #e74c3c; font-size: 3rem; margin-bottom: 1rem; }}
+                .message {{ color: #666; font-size: 1.2rem; }}
             </style>
         </head>
         <body>
-            <div class="error-container">
-                <div class="error">404</div>
-                <div class="message">Surf Spot Not Found</div>
-                <div class="path">Requested path: {path}</div>
-                <p style="color: #666; margin: 1rem 0;">This surf spot seems to be off the radar.</p>
-                <a href="/">← Back to Home</a>
-            </div>
+            <div class="error">🏄‍♂️ 404</div>
+            <div class="message">Surf's up, but this page isn't here!</div>
+            <div class="message">Path: {path}</div>
+            <p><a href="/">← Back to Home</a></p>
         </body>
         </html>
         """
         self.wfile.write(html_content.encode())
-    
-    def send_spots_page(self):
-        """Send surf spots page"""
+
+    def send_hanging_response(self):
+        """Send a hanging response that never completes"""
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Surf Spots - NorCal Surf Adventures</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 2rem;
-                }
-                .container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
-                    padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-                h1 { color: #1e3c72; text-align: center; }
-                .spots-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 2rem;
-                    margin-top: 2rem;
-                }
-                .spot-card {
-                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
-                    border-radius: 10px;
-                    padding: 1.5rem;
-                    transition: transform 0.3s;
-                    border-left: 4px solid #74b9ff;
-                }
-                .spot-card:hover {
-                    transform: translateY(-5px);
-                }
-                a { color: #1e3c72; text-decoration: none; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>🌊 NorCal Surf Spots</h1>
-                <div class="spots-grid">
-                    <div class="spot-card">
-                        <h3>🏄‍♂️ Mavericks</h3>
-                        <p>The legendary big wave spot off Half Moon Bay.</p>
-                        <a href="/spots/mavericks">Read Guide →</a>
-                    </div>
-                    <div class="spot-card">
-                        <h3>🏄‍♀️ Steamer Lane</h3>
-                        <p>Santa Cruz's famous right-hand point break.</p>
-                        <a href="/spots/steamer-lane">Read Guide →</a>
-                    </div>
-                    <div class="spot-card">
-                        <h3>🏖️ Stinson Beach</h3>
-                        <p>Family-friendly beach break in Marin County.</p>
-                        <a href="/spots/stinson-beach">Read Guide →</a>
-                    </div>
-                    <div class="spot-card">
-                        <h3>🏰 Fort Point</h3>
-                        <p>Urban surfing under the Golden Gate Bridge.</p>
-                        <a href="/spots/fort-point">Read Guide →</a>
-                    </div>
-                </div>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-        self.wfile.write(html_content.encode())
-    
-    def send_conditions_page(self):
-        """Send conditions page"""
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
+        # Send partial content and then hang
+        self.wfile.write(b"<html><body><h1>Loading...</h1>")
+        self.wfile.flush()
         
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Surf Conditions - NorCal Surf Adventures</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 2rem;
-                }
-                .container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
-                    padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-                h1 { color: #1e3c72; text-align: center; }
-                .condition-card {
-                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
-                    border-radius: 10px;
-                    padding: 1.5rem;
-                    margin: 1rem 0;
-                    border-left: 4px solid #74b9ff;
-                }
-                a { color: #1e3c72; text-decoration: none; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>🌊 Surf Conditions</h1>
-                <div class="condition-card">
-                    <h3>Real-time Reports</h3>
-                    <p>Get the latest conditions for all NorCal surf spots.</p>
-                    <a href="/conditions/reports">Check Reports →</a>
-                </div>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-        self.wfile.write(html_content.encode())
-    
-    def send_gear_page(self):
-        """Send gear page"""
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Surf Gear - NorCal Surf Adventures</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 2rem;
-                }
-                .container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
-                    padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-                h1 { color: #1e3c72; text-align: center; }
-                .gear-card {
-                    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
-                    border-radius: 10px;
-                    padding: 1.5rem;
-                    margin: 1rem 0;
-                    border-left: 4px solid #74b9ff;
-                }
-                a { color: #1e3c72; text-decoration: none; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>🏄‍♂️ Surf Gear Guide</h1>
-                <div class="gear-card">
-                    <h3>Equipment Guide</h3>
-                    <p>Get the right equipment for NorCal's challenging conditions.</p>
-                    <a href="/gear/equipment-guide">View Guide →</a>
-                </div>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-        self.wfile.write(html_content.encode())
-    
-    def send_about_page(self):
-        """Send about page"""
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>About - NorCal Surf Adventures</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 2rem;
-                }
-                .container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
-                    padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-                h1 { color: #1e3c72; text-align: center; }
-                .content { background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }
-                a { color: #1e3c72; text-decoration: none; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>About NorCal Surf Adventures</h1>
-                <div class="content">
-                    <p>We are passionate surfers sharing our knowledge of Northern California's legendary surf spots. Our mission is to help surfers of all levels discover and safely enjoy the incredible waves along the NorCal coastline.</p>
-                    <p>From the massive waves of Mavericks to the family-friendly breaks of Stinson Beach, we provide comprehensive guides and real-time information to enhance your surfing experience.</p>
-                </div>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-        self.wfile.write(html_content.encode())
-    
-    def send_contact_page(self):
-        """Send contact page"""
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        
-        html_content = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Contact - NorCal Surf Adventures</title>
-            <style>
-                body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
-                    margin: 0;
-                    padding: 2rem;
-                }
-                .container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
-                    padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-                h1 { color: #1e3c72; text-align: center; }
-                .content { background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }
-                a { color: #1e3c72; text-decoration: none; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Contact Us</h1>
-                <div class="content">
-                    <p>Get in touch with us for surf reports, gear recommendations, or just to share your NorCal surf stories!</p>
-                    <p><strong>Email:</strong> hello@norcalsurfadventures.com</p>
-                    <p><strong>Follow us:</strong> @norcalsurfadventures</p>
-                </div>
-                <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-        self.wfile.write(html_content.encode())
-    
+        # Keep the connection open indefinitely
+        while True:
+            time.sleep(1)
+            try:
+                self.wfile.write(b"<!-- still loading -->")
+                self.wfile.flush()
+            except:
+                break
+
     def send_base64_page(self, path):
         """Send pages that are accessed via base64 decoded links (leaf nodes)"""
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         
-        # Create different content based on the path
+        # Generate content based on the path
         if path == '/gallery/mavericks-photos/':
             title = "Mavericks Photo Gallery"
             content = """
-                <h2>🏄‍♂️ Mavericks Photo Gallery</h2>
-                <p>Epic shots from the legendary big wave spot. These photos capture the raw power and beauty of Mavericks during peak conditions.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Featured Photos:</strong></p>
-                    <ul>
-                        <li>60-foot wave barrel shot</li>
-                        <li>Surfer dropping into massive wave</li>
-                        <li>Aerial view of the break</li>
-                        <li>Sunset session highlights</li>
-                    </ul>
-                </div>
-            """
-        elif path == '/gallery/steamer-lane-photos/':
-            title = "Steamer Lane Photo Gallery"
-            content = """
-                <h2>🏄‍♀️ Steamer Lane Photo Gallery</h2>
-                <p>Classic shots from Santa Cruz's most famous surf spot. The Lane's perfect right-handers captured in all their glory.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Featured Photos:</strong></p>
-                    <ul>
-                        <li>Perfect barrel at the Point</li>
-                        <li>Long right-hander ride</li>
-                        <li>Local surfers in action</li>
-                        <li>Sunrise session magic</li>
-                    </ul>
-                </div>
+            <h2>🏄‍♂️ Mavericks Photo Gallery</h2>
+            <p>Amazing photos of the legendary big wave spot.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>📸 Photo 1: 60-foot wave at Mavericks</p>
+                <p>📸 Photo 2: Surfer riding the monster</p>
+                <p>📸 Photo 3: Aerial view of the break</p>
+            </div>
             """
         elif path == '/gear/wetsuit-guide/':
             title = "Wetsuit Guide"
             content = """
-                <h2>🧥 NorCal Wetsuit Guide</h2>
-                <p>Essential guide to choosing the right wetsuit for Northern California's cold water conditions.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Wetsuit Recommendations:</strong></p>
-                    <ul>
-                        <li>Summer: 3/2mm or 4/3mm</li>
-                        <li>Winter: 5/4mm or 6/5mm with hood</li>
-                        <li>Brands: O'Neill, Rip Curl, Patagonia</li>
-                        <li>Features: Sealed seams, chest zip</li>
-                    </ul>
-                </div>
+            <h2>🧥 NorCal Wetsuit Guide</h2>
+            <p>Essential guide for staying warm in cold NorCal waters.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>❄️ 4/3mm wetsuit for winter</p>
+                <p>🌊 3/2mm wetsuit for summer</p>
+                <p>🧤 Booties and gloves essential</p>
+            </div>
             """
         elif path == '/conditions/weather-reports/':
             title = "Weather Reports"
             content = """
-                <h2>🌤️ NorCal Weather Reports</h2>
-                <p>Comprehensive weather analysis for optimal surf conditions across Northern California.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Current Conditions:</strong></p>
-                    <ul>
-                        <li>Wind: NW 15-20 knots</li>
-                        <li>Swell: 8-12 feet NW</li>
-                        <li>Water Temp: 52°F</li>
-                        <li>Visibility: Good</li>
-                    </ul>
-                </div>
+            <h2>🌤️ Weather Reports</h2>
+            <p>Current weather conditions for all NorCal surf spots.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>🌊 Mavericks: 15-20ft, offshore winds</p>
+                <p>🏄‍♀️ Steamer Lane: 6-8ft, light winds</p>
+                <p>🌡️ Water temp: 52°F</p>
+            </div>
             """
         elif path == '/spots/surf-reports/':
             title = "Surf Reports"
             content = """
-                <h2>🌊 NorCal Surf Reports</h2>
-                <p>Real-time surf conditions and forecasts for all major NorCal surf spots.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Spot Reports:</strong></p>
-                    <ul>
-                        <li>Mavericks: 15-20ft, Expert only</li>
-                        <li>Steamer Lane: 6-8ft, Advanced</li>
-                        <li>Stinson Beach: 3-5ft, All levels</li>
-                        <li>Fort Point: 8-12ft, Advanced</li>
-                    </ul>
-                </div>
+            <h2>🌊 Surf Reports</h2>
+            <p>Real-time surf conditions and forecasts.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>📊 Current swell: 8-12ft</p>
+                <p>🌪️ Wind: NW 15mph</p>
+                <p>⏰ Tide: High at 2:30 PM</p>
+            </div>
             """
         elif path == '/spots/tide-reports/':
             title = "Tide Reports"
             content = """
-                <h2>🌊 NorCal Tide Reports</h2>
-                <p>Detailed tide information and timing for optimal surf sessions.</p>
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
-                    <p><strong>Tide Schedule:</strong></p>
-                    <ul>
-                        <li>High Tide: 2:30 PM (6.2ft)</li>
-                        <li>Low Tide: 8:45 AM (0.8ft)</li>
-                        <li>Next High: 2:45 AM (5.8ft)</li>
-                        <li>Best Surf: 1-3 hours around high tide</li>
-                    </ul>
-                </div>
+            <h2>🌊 Tide Reports</h2>
+            <p>Daily tide schedules for optimal surfing.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>🌅 Low tide: 6:45 AM</p>
+                <p>🌊 High tide: 2:30 PM</p>
+                <p>🌅 Low tide: 7:15 PM</p>
+            </div>
+            """
+        elif path == '/dynamic/surf-report/':
+            title = "Dynamic Surf Report"
+            content = """
+            <h2>🌊 Dynamic Surf Report</h2>
+            <p>Real-time conditions generated dynamically.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>🔄 Updated: Just now</p>
+                <p>🌊 Swell: 10-15ft</p>
+                <p>💨 Wind: Variable</p>
+            </div>
+            """
+        elif path == '/dynamic/forecast/':
+            title = "Extended Forecast"
+            content = """
+            <h2>📅 Extended Forecast</h2>
+            <p>7-day surf forecast for NorCal spots.</p>
+            <div style="background: #f0f0f0; padding: 20px; border-radius: 10px;">
+                <p>📆 Tomorrow: 12-18ft</p>
+                <p>📆 Weekend: 8-12ft</p>
+                <p>📆 Next week: 6-10ft</p>
+            </div>
             """
         else:
-            title = "Base64 Page"
-            content = "<h2>Base64 Decoded Page</h2><p>This page was accessed via a base64 decoded link!</p>"
+            title = "Unknown Page"
+            content = "<p>This page was accessed via base64 decoding.</p>"
         
         html_content = f"""
         <!DOCTYPE html>
@@ -584,18 +202,22 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
                     margin: 0;
                     padding: 2rem;
+                    min-height: 100vh;
+                    color: white;
                 }}
                 .container {{
                     max-width: 800px;
                     margin: 0 auto;
-                    background: white;
-                    border-radius: 15px;
+                    background: rgba(255, 255, 255, 0.1);
                     padding: 2rem;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                    border-radius: 15px;
+                    backdrop-filter: blur(10px);
                 }}
-                h1 {{ color: #1e3c72; text-align: center; }}
-                .content {{ background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }}
-                a {{ color: #1e3c72; text-decoration: none; }}
+                h1 {{ color: white; margin-bottom: 1rem; }}
+                h2 {{ color: #74b9ff; margin-bottom: 1rem; }}
+                p {{ line-height: 1.6; margin-bottom: 1rem; }}
+                a {{ color: #74b9ff; text-decoration: none; }}
+                a:hover {{ text-decoration: underline; }}
             </style>
         </head>
         <body>
@@ -605,47 +227,43 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     {content}
                 </div>
                 <p style="text-align: center; margin-top: 2rem;">
-                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #74b9ff; border-radius: 5px;">← Back to Home</a>
                 </p>
             </div>
         </body>
         </html>
         """
         self.wfile.write(html_content.encode())
-    
-    def serve_file(self, filename):
-        """Serve a static file"""
-        try:
-            with open(filename, 'rb') as f:
-                content = f.read()
-            
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(content)
-        except FileNotFoundError:
-            self.send_404_error(filename)
 
 def run_server(port=None):
     """Run the HTTP server"""
-    # Get port from environment variable (for cloud hosting) or use default
     if port is None:
         port = int(os.environ.get('PORT', 8000))
     
-    # Bind to all interfaces for cloud hosting
-    host = '0.0.0.0'
+    handler = SurfAdventuresHTTPRequestHandler
     
-    with socketserver.TCPServer((host, port), SurfAdventuresHTTPRequestHandler) as httpd:
-        print(f"🌊 NorCal Surf Adventures Server started at http://localhost:{port}")
-        if host == '0.0.0.0':
-            print(f"🌐 Server is accessible from external connections")
-        print(f"📁 Serving files from: {os.getcwd()}")
-        print("🔗 Test the following:")
-        print("   - Working pages: /, /spots, /conditions, /gear, /about, /contact")
-        print("   - 404 errors: /spots/pleasure-point, /category/big-wave, /services/surf-lessons")
-        print("   - Hanging requests: /spots/mavericks, /spots/steamer-lane, /gear/equipment-guide")
-        print("   - Base64 decoded pages: /gallery/mavericks-photos/, /gear/wetsuit-guide/, /spots/surf-reports/")
-        print("\n⏹️  Press Ctrl+C to stop the server")
+    with socketserver.TCPServer(("", port), handler) as httpd:
+        print("🏄‍♂️ NorCal Surf Adventures Server")
+        print("=" * 50)
+        print(f"Server running on port {port}")
+        print(f"Website: http://localhost:{port}")
+        print()
+        print("📋 Available Routes:")
+        print("   - Main page: /")
+        print("   - 404 errors: /spots/mavericks/forecast, /spots/mavericks, etc.")
+        print("   - Hanging request: /hang")
+        print("   - Base64 decoded pages: /gallery/mavericks-photos/, /gear/wetsuit-guide/, etc.")
+        print("   - Dynamic pages: /dynamic/surf-report/, /dynamic/forecast/")
+        print()
+        print("🔐 Base64 encoded links:")
+        print("   - L2dhbGxlcnkvbWF2ZXJpY2tzLXBob3Rvcy8= → /gallery/mavericks-photos/")
+        print("   - L2dlYXIvd2V0c3VpdC1ndWlkZS8= → /gear/wetsuit-guide/")
+        print("   - L2NvbmRpdGlvbnMvd2VhdGhlci1yZXBvcnRzLw== → /conditions/weather-reports/")
+        print("   - L3Nwb3RzL3N1cmYtcmVwb3J0cy8= → /spots/surf-reports/")
+        print("   - L3Nwb3RzL3RpZGUtcmVwb3J0cy8= → /spots/tide-reports/")
+        print()
+        print("Press Ctrl+C to stop the server")
+        
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

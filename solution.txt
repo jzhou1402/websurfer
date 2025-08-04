@@ -1,89 +1,26 @@
-# Complete Solution - All Available Links
-# This file contains ALL links that should be found by candidates
-# Organized by difficulty level and category
-
-# ========================================
-# STATIC HTML LINKS (requests + BeautifulSoup)
-# ========================================
-
-# Navigation Links
 /spots
 /about
 
-# Surf Spot Links (404 errors)
 /spots/mavericks
-/spots/steamer-lane
+/spots/mavericks/conditions
+/spots/mavericks/gallery
 
-# Category Links (404 errors)
-/category/big-wave
-/category/beginner-friendly
+/spots/mavericks/forecast
 
-# Service Links (404 errors)
-/services/surf-lessons
-/services/board-rental
+/hang
 
-# Connect Links (404 errors)
-/newsletter
-/instagram
+https://www.surfline.com
+https://www.magicseaweed.com
 
-# Footer Links (404 errors)
+/gear/equipment-guide
+/conditions/reports
+
 /privacy-policy
 /terms-of-service
 
-# External Resource Links (real websites)
-https://www.surfline.com
-https://www.magicseaweed.com
-https://www.noaa.gov
-https://tidesandcurrents.noaa.gov
-
-# Quick Links Sidebar (real websites)
-https://www.surfline.com
-https://www.magicseaweed.com
-
-# Surfline Report Links (real websites)
-https://www.surfline.com/surf-report/mavericks/5842041f4e65fad6a77088b5
-https://www.surfline.com/surf-report/steamer-lane/5842041f4e65fad6a77088b5
-
-# ========================================
-# DYNAMIC JAVASCRIPT LINKS (Selenium required)
-# ========================================
-
-# Surf Shop Product Links (404 errors)
 /shop/boards/channel-islands
-/shop/wetsuits/oneill
-
-# Surf Shop External Links (real websites)
 https://www.channelislandssurfboards.com
-https://www.oneill.com
-
-# Surf Shop Additional Links (404 errors)
-/shop/reviews/channel-islands
-/shop/size-guide/wetsuits
-
-# Dynamic Community Links (404 errors)
-/community/events
-/community/forums
-
-# Scroll-triggered Links (404 errors)
-/hidden/scroll-content
-
-# ========================================
-# BASE64 ENCODED LINKS (requires decoding)
-# ========================================
-
-# Visible Base64 Hints (easy to find)
+/dynamic/surf-report
+/dynamic/forecast
 /gallery/mavericks-photos/
-/gallery/steamer-lane-photos/
-/gear/wetsuit-guide/
-/conditions/weather-reports/
 
-# Dynamic Base64 Links (JavaScript added after 5 seconds)
-/spots/surf-reports/
-/spots/tide-reports/
-
-# ========================================
-# SUMMARY BY DIFFICULTY LEVEL
-# ========================================
-# Beginner (requests only): ~12 links
-# Intermediate (Selenium): ~18 links  
-# Advanced (Base64 decoding): ~22 links 
