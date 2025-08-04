@@ -1,0 +1,16 @@
+# Web Scraping Interview Results
+# Candidate: [Enter Name Here]
+# Date: [Enter Date Here]
+# 
+# Instructions:
+# 1. Add each link you find on a new line
+# 2. Remove the '#' comments when you add links
+# 3. Keep this file updated as you find more links
+# 4. One link per line, no extra formatting
+#
+# Example format:
+# https://www.example.com
+# /about
+# /contact
+#
+# Your scraped links go below: 

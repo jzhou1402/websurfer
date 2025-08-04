@@ -37,6 +37,13 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_404_error(path)
             return
         
+        # Handle base64 decoded internal pages (leaf nodes)
+        if path in ['/gallery/mavericks-photos/', '/gallery/steamer-lane-photos/',
+                   '/gear/wetsuit-guide/', '/conditions/weather-reports/',
+                   '/spots/surf-reports/', '/spots/tide-reports/']:
+            self.send_base64_page(path)
+            return
+        
         # Handle working pages
         if path == '/spots':
             self.send_spots_page()
@@ -465,6 +472,147 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html_content.encode())
     
+    def send_base64_page(self, path):
+        """Send pages that are accessed via base64 decoded links (leaf nodes)"""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Create different content based on the path
+        if path == '/gallery/mavericks-photos/':
+            title = "Mavericks Photo Gallery"
+            content = """
+                <h2>🏄‍♂️ Mavericks Photo Gallery</h2>
+                <p>Epic shots from the legendary big wave spot. These photos capture the raw power and beauty of Mavericks during peak conditions.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Featured Photos:</strong></p>
+                    <ul>
+                        <li>60-foot wave barrel shot</li>
+                        <li>Surfer dropping into massive wave</li>
+                        <li>Aerial view of the break</li>
+                        <li>Sunset session highlights</li>
+                    </ul>
+                </div>
+            """
+        elif path == '/gallery/steamer-lane-photos/':
+            title = "Steamer Lane Photo Gallery"
+            content = """
+                <h2>🏄‍♀️ Steamer Lane Photo Gallery</h2>
+                <p>Classic shots from Santa Cruz's most famous surf spot. The Lane's perfect right-handers captured in all their glory.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Featured Photos:</strong></p>
+                    <ul>
+                        <li>Perfect barrel at the Point</li>
+                        <li>Long right-hander ride</li>
+                        <li>Local surfers in action</li>
+                        <li>Sunrise session magic</li>
+                    </ul>
+                </div>
+            """
+        elif path == '/gear/wetsuit-guide/':
+            title = "Wetsuit Guide"
+            content = """
+                <h2>🧥 NorCal Wetsuit Guide</h2>
+                <p>Essential guide to choosing the right wetsuit for Northern California's cold water conditions.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Wetsuit Recommendations:</strong></p>
+                    <ul>
+                        <li>Summer: 3/2mm or 4/3mm</li>
+                        <li>Winter: 5/4mm or 6/5mm with hood</li>
+                        <li>Brands: O'Neill, Rip Curl, Patagonia</li>
+                        <li>Features: Sealed seams, chest zip</li>
+                    </ul>
+                </div>
+            """
+        elif path == '/conditions/weather-reports/':
+            title = "Weather Reports"
+            content = """
+                <h2>🌤️ NorCal Weather Reports</h2>
+                <p>Comprehensive weather analysis for optimal surf conditions across Northern California.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Current Conditions:</strong></p>
+                    <ul>
+                        <li>Wind: NW 15-20 knots</li>
+                        <li>Swell: 8-12 feet NW</li>
+                        <li>Water Temp: 52°F</li>
+                        <li>Visibility: Good</li>
+                    </ul>
+                </div>
+            """
+        elif path == '/spots/surf-reports/':
+            title = "Surf Reports"
+            content = """
+                <h2>🌊 NorCal Surf Reports</h2>
+                <p>Real-time surf conditions and forecasts for all major NorCal surf spots.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Spot Reports:</strong></p>
+                    <ul>
+                        <li>Mavericks: 15-20ft, Expert only</li>
+                        <li>Steamer Lane: 6-8ft, Advanced</li>
+                        <li>Stinson Beach: 3-5ft, All levels</li>
+                        <li>Fort Point: 8-12ft, Advanced</li>
+                    </ul>
+                </div>
+            """
+        elif path == '/spots/tide-reports/':
+            title = "Tide Reports"
+            content = """
+                <h2>🌊 NorCal Tide Reports</h2>
+                <p>Detailed tide information and timing for optimal surf sessions.</p>
+                <div style="background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                    <p><strong>Tide Schedule:</strong></p>
+                    <ul>
+                        <li>High Tide: 2:30 PM (6.2ft)</li>
+                        <li>Low Tide: 8:45 AM (0.8ft)</li>
+                        <li>Next High: 2:45 AM (5.8ft)</li>
+                        <li>Best Surf: 1-3 hours around high tide</li>
+                    </ul>
+                </div>
+            """
+        else:
+            title = "Base64 Page"
+            content = "<h2>Base64 Decoded Page</h2><p>This page was accessed via a base64 decoded link!</p>"
+        
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>{title} - NorCal Surf Adventures</title>
+            <style>
+                body {{ 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
+                    margin: 0;
+                    padding: 2rem;
+                }}
+                .container {{
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: white;
+                    border-radius: 15px;
+                    padding: 2rem;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }}
+                h1 {{ color: #1e3c72; text-align: center; }}
+                .content {{ background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%); border-radius: 10px; padding: 1.5rem; border-left: 4px solid #74b9ff; }}
+                a {{ color: #1e3c72; text-decoration: none; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>{title}</h1>
+                <div class="content">
+                    {content}
+                </div>
+                <p style="text-align: center; margin-top: 2rem;">
+                    <a href="/" style="padding: 0.5rem 1rem; border: 2px solid #1e3c72; border-radius: 5px;">← Back to Home</a>
+                </p>
+            </div>
+        </body>
+        </html>
+        """
+        self.wfile.write(html_content.encode())
+    
     def serve_file(self, filename):
         """Serve a static file"""
         try:
@@ -496,6 +644,7 @@ def run_server(port=None):
         print("   - Working pages: /, /spots, /conditions, /gear, /about, /contact")
         print("   - 404 errors: /spots/pleasure-point, /category/big-wave, /services/surf-lessons")
         print("   - Hanging requests: /spots/mavericks, /spots/steamer-lane, /gear/equipment-guide")
+        print("   - Base64 decoded pages: /gallery/mavericks-photos/, /gear/wetsuit-guide/, /spots/surf-reports/")
         print("\n⏹️  Press Ctrl+C to stop the server")
         try:
             httpd.serve_forever()

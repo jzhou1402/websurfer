@@ -249,6 +249,119 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
+        .surf-shop {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid #74b9ff;
+        }
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .load-more-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .load-more-btn:hover {
+            background: #74b9ff;
+        }
+        .load-more-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .product-card h4 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        .product-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .product-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .product-links a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            background: #e3f2fd;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .product-links a:hover {
+            background: #74b9ff;
+            color: white;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        .hidden {
+            display: none;
+        }
+        .category-filter {
+            margin-bottom: 1rem;
+        }
+        .category-filter button {
+            background: #e3f2fd;
+            border: 1px solid #74b9ff;
+            color: #1e3c72;
+            padding: 0.3rem 0.8rem;
+            margin-right: 0.5rem;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .category-filter button.active {
+            background: #74b9ff;
+            color: white;
+        }
+        .category-filter button:hover {
+            background: #74b9ff;
+            color: white;
+        }
+        .hidden-links {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+        .base64-hint {
+            font-size: 0.7rem;
+            color: #999;
+            font-family: monospace;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -257,10 +370,7 @@
             <a href="/" class="logo">🌊 NorCal Surf Adventures</a>
             <div class="nav-links">
                 <a href="/spots">Surf Spots</a>
-                <a href="/conditions">Conditions</a>
-                <a href="/gear">Gear Guide</a>
                 <a href="/about">About</a>
-                <a href="/contact">Contact</a>
             </div>
         </nav>
     </header>
@@ -280,36 +390,20 @@
                         <div class="featured-image">🏄‍♂️ Mavericks</div>
                         <span class="difficulty expert">Expert Level</span>
                         <h3>Mavericks - The Big Wave Mecca</h3>
-                        <p>Located off the coast of Half Moon Bay, Mavericks is one of the most challenging big wave surf spots in the world. With waves reaching up to 60 feet, this legendary break is only for the most experienced surfers. The spot works best during winter storms and requires precise timing and massive courage.</p>
+                        <p>Located off the coast of Half Moon Bay, Mavericks is one of the most challenging big wave surf spots in the world. With waves reaching up to 60 feet, this legendary break is only for the most experienced surfers.</p>
                         <a href="/spots/mavericks" class="read-more">Read More →</a>
                         <a href="https://www.surfline.com/surf-report/mavericks/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
+                        <div class="base64-hint">Hidden: L2dhbGxlcnkvbWF2ZXJpY2tzLXBob3Rvcy8=</div>
                     </article>
 
                     <article class="surf-spot">
                         <div class="featured-image">🏄‍♀️ Steamer Lane</div>
                         <span class="difficulty advanced">Advanced Level</span>
                         <h3>Steamer Lane - Santa Cruz Classic</h3>
-                        <p>Steamer Lane in Santa Cruz is a world-famous right-hand point break that offers consistent waves year-round. This spot is known for its long, peeling waves and is a favorite among experienced surfers. The Lane works best on northwest swells and can handle waves from 3 to 20 feet.</p>
+                        <p>Steamer Lane in Santa Cruz is a world-famous right-hand point break that offers consistent waves year-round. This spot is known for its long, peeling waves and is a favorite among experienced surfers.</p>
                         <a href="/spots/steamer-lane" class="read-more">Read More →</a>
                         <a href="https://www.surfline.com/surf-report/steamer-lane/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
-                    </article>
-
-                    <article class="surf-spot">
-                        <div class="featured-image">🏖️ Stinson Beach</div>
-                        <span class="difficulty intermediate">Intermediate Level</span>
-                        <h3>Stinson Beach - Family-Friendly Waves</h3>
-                        <p>Stinson Beach offers a more forgiving surf experience perfect for intermediate surfers and families. Located in Marin County, this beach break provides consistent waves and a beautiful setting. The waves are generally smaller and more manageable, making it ideal for learning and progression.</p>
-                        <a href="/spots/stinson-beach" class="read-more">Read More →</a>
-                        <a href="https://www.surfline.com/surf-report/stinson-beach/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
-                    </article>
-
-                    <article class="surf-spot">
-                        <div class="featured-image">🏰 Fort Point</div>
-                        <span class="difficulty advanced">Advanced Level</span>
-                        <h3>Fort Point - Urban Surfing Under the Bridge</h3>
-                        <p>Fort Point, located directly under the Golden Gate Bridge, offers a unique urban surfing experience. This powerful right-hand point break works best on large northwest swells and provides challenging waves in an iconic San Francisco setting. The spot requires advanced skills and careful attention to tides.</p>
-                        <a href="/spots/fort-point" class="read-more">Read More →</a>
-                        <a href="https://www.surfline.com/surf-report/fort-point/5842041f4e65fad6a77088b5" class="external-link" target="_blank">Check Surfline Report</a>
+                        <div class="base64-hint">Hidden: L2dhbGxlcnkvc3RlYW1lci1sYW5lLXBob3Rvcy8=</div>
                     </article>
                 </section>
 
@@ -319,11 +413,33 @@
                         <h3>Essential Surf Gear Guide</h3>
                         <p>Get the right equipment for NorCal's challenging conditions, from wetsuits to boards.</p>
                         <a href="/gear/equipment-guide" class="read-more">View Guide →</a>
+                        <div class="base64-hint">Hidden: L2dlYXIvd2V0c3VpdC1ndWlkZS8=</div>
                     </div>
                     <div class="surf-spot">
                         <h3>Weather & Tide Reports</h3>
                         <p>Stay updated with real-time conditions for all NorCal surf spots.</p>
                         <a href="/conditions/reports" class="read-more">Check Conditions →</a>
+                        <div class="base64-hint">Hidden: L2NvbmRpdGlvbnMvd2VhdGhlci1yZXBvcnRzLw==</div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="surf-shop">
+                        <div class="shop-header">
+                            <h3>🏄‍♂️ NorCal Surf Shop</h3>
+                            <button class="load-more-btn" onclick="loadMoreProducts()">Load More Gear</button>
+                        </div>
+                        
+                        <div class="category-filter">
+                            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+                            <button class="filter-btn" onclick="filterProducts('boards')">Surfboards</button>
+                            <button class="filter-btn" onclick="filterProducts('wetsuits')">Wetsuits</button>
+                            <button class="filter-btn" onclick="filterProducts('accessories')">Accessories</button>
+                        </div>
+
+                        <div id="products-container">
+                            <div class="loading">Loading surf gear...</div>
+                        </div>
                     </div>
                 </section>
 
@@ -334,26 +450,14 @@
                             <div class="external-link-item">
                                 <h4>Surf Reports</h4>
                                 <a href="https://www.surfline.com" class="external-link" target="_blank">Surfline</a><br>
-                                <a href="https://www.magicseaweed.com" class="external-link" target="_blank">Magic Seaweed</a><br>
-                                <a href="https://www.swellinfo.com" class="external-link" target="_blank">SwellInfo</a>
+                                <a href="https://www.magicseaweed.com" class="external-link" target="_blank">Magic Seaweed</a>
+                                <div class="base64-hint">Hidden: L3Nwb3RzL3N1cmYtcmVwb3J0cy8=</div>
                             </div>
                             <div class="external-link-item">
                                 <h4>Weather & Tides</h4>
                                 <a href="https://www.noaa.gov" class="external-link" target="_blank">NOAA Weather</a><br>
-                                <a href="https://tidesandcurrents.noaa.gov" class="external-link" target="_blank">NOAA Tides</a><br>
-                                <a href="https://www.windfinder.com" class="external-link" target="_blank">Windfinder</a>
-                            </div>
-                            <div class="external-link-item">
-                                <h4>Surf Shops</h4>
-                                <a href="https://www.realwatersports.com" class="external-link" target="_blank">Real Water Sports</a><br>
-                                <a href="https://www.surfnsea.com" class="external-link" target="_blank">Surf N Sea</a><br>
-                                <a href="https://www.surfline.com/shop" class="external-link" target="_blank">Surfline Shop</a>
-                            </div>
-                            <div class="external-link-item">
-                                <h4>Surf Organizations</h4>
-                                <a href="https://www.surfrider.org" class="external-link" target="_blank">Surfrider Foundation</a><br>
-                                <a href="https://www.worldsurfleague.com" class="external-link" target="_blank">World Surf League</a><br>
-                                <a href="https://www.surfingamerica.org" class="external-link" target="_blank">Surfing America</a>
+                                <a href="https://tidesandcurrents.noaa.gov" class="external-link" target="_blank">NOAA Tides</a>
+                                <div class="base64-hint">Hidden: L3Nwb3RzL3RpZGUtcmVwb3J0cy8=</div>
                             </div>
                         </div>
                     </div>
@@ -366,12 +470,6 @@
                     <ul class="category-list">
                         <li><a href="/spots/mavericks">Mavericks</a></li>
                         <li><a href="/spots/steamer-lane">Steamer Lane</a></li>
-                        <li><a href="/spots/stinson-beach">Stinson Beach</a></li>
-                        <li><a href="/spots/fort-point">Fort Point</a></li>
-                        <li><a href="/spots/pleasure-point">Pleasure Point</a></li>
-                        <li><a href="/spots/rockaway">Rockaway Beach</a></li>
-                        <li><a href="/spots/ob">Ocean Beach</a></li>
-                        <li><a href="/spots/linda-mar">Linda Mar</a></li>
                     </ul>
                 </section>
 
@@ -379,13 +477,7 @@
                     <h2>Surf Categories</h2>
                     <ul class="category-list">
                         <li><a href="/category/big-wave">Big Wave Surfing</a></li>
-                        <li><a href="/category/point-breaks">Point Breaks</a></li>
-                        <li><a href="/category/beach-breaks">Beach Breaks</a></li>
-                        <li><a href="/category/reef-breaks">Reef Breaks</a></li>
                         <li><a href="/category/beginner-friendly">Beginner Friendly</a></li>
-                        <li><a href="/category/advanced">Advanced Spots</a></li>
-                        <li><a href="/category/winter-spots">Winter Spots</a></li>
-                        <li><a href="/category/summer-spots">Summer Spots</a></li>
                     </ul>
                 </section>
 
@@ -394,10 +486,6 @@
                     <ul class="category-list">
                         <li><a href="/services/surf-lessons">Surf Lessons</a></li>
                         <li><a href="/services/board-rental">Board Rental</a></li>
-                        <li><a href="/services/wetsuit-rental">Wetsuit Rental</a></li>
-                        <li><a href="/services/surf-guides">Surf Guides</a></li>
-                        <li><a href="/services/safety-courses">Safety Courses</a></li>
-                        <li><a href="/services/competitions">Surf Competitions</a></li>
                     </ul>
                 </section>
 
@@ -406,10 +494,6 @@
                     <ul class="category-list">
                         <li><a href="https://www.surfline.com" target="_blank" class="external-link">Surfline Reports</a></li>
                         <li><a href="https://www.magicseaweed.com" target="_blank" class="external-link">Magic Seaweed</a></li>
-                        <li><a href="https://tidesandcurrents.noaa.gov" target="_blank" class="external-link">NOAA Tides</a></li>
-                        <li><a href="https://www.windfinder.com" target="_blank" class="external-link">Windfinder</a></li>
-                        <li><a href="https://www.surfrider.org" target="_blank" class="external-link">Surfrider Foundation</a></li>
-                        <li><a href="https://www.worldsurfleague.com" target="_blank" class="external-link">World Surf League</a></li>
                     </ul>
                 </section>
 
@@ -418,10 +502,6 @@
                     <ul class="category-list">
                         <li><a href="/newsletter">Surf Report Newsletter</a></li>
                         <li><a href="/instagram">Instagram</a></li>
-                        <li><a href="/youtube">YouTube Channel</a></li>
-                        <li><a href="/facebook">Facebook Page</a></li>
-                        <li><a href="/twitter">Twitter</a></li>
-                        <li><a href="/surfline">Surfline Integration</a></li>
                     </ul>
                 </section>
             </aside>
@@ -433,10 +513,184 @@
         <div class="social-links">
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/terms-of-service">Terms of Service</a>
-            <a href="/sitemap">Sitemap</a>
-            <a href="/advertising">Advertising</a>
-            <a href="/partnerships">Partnerships</a>
         </div>
     </footer>
+
+    <script>
+        // Simulate dynamic content loading
+        let productsLoaded = 0;
+        let currentFilter = 'all';
+        
+        const products = [
+            {
+                id: 1,
+                name: "Channel Islands Surfboard",
+                category: "boards",
+                description: "High-performance shortboard for advanced surfers",
+                links: [
+                    { text: "View Details", url: "/shop/boards/channel-islands" },
+                    { text: "Buy Now", url: "https://www.channelislandssurfboards.com" },
+                    { text: "Reviews", url: "/shop/reviews/channel-islands" }
+                ]
+            },
+            {
+                id: 2,
+                name: "O'Neill Wetsuit",
+                category: "wetsuits",
+                description: "4/3mm wetsuit perfect for NorCal conditions",
+                links: [
+                    { text: "View Details", url: "/shop/wetsuits/oneill" },
+                    { text: "Buy Now", url: "https://www.oneill.com" },
+                    { text: "Size Guide", url: "/shop/size-guide/wetsuits" }
+                ]
+            }
+        ];
+
+        // Add base64 encoded links to dynamic content
+        function addBase64Links() {
+            const base64Links = [
+                "L3Nwb3RzL3N1cmYtcmVwb3J0cy8=",
+                "L3Nwb3RzL3RpZGUtcmVwb3J0cy8="
+            ];
+            
+            // Add to dynamic content after 5 seconds
+            setTimeout(() => {
+                const hiddenDiv = document.createElement('div');
+                hiddenDiv.className = 'hidden-links';
+                hiddenDiv.innerHTML = base64Links.map(link => 
+                    `<a href="${link}">Hidden Dynamic Link</a>`
+                ).join('');
+                document.body.appendChild(hiddenDiv);
+            }, 5000);
+        }
+
+        // Simulate AJAX call delay
+        function simulateAjaxCall(callback, delay = 1000) {
+            setTimeout(callback, delay);
+        }
+
+        // Load initial products
+        function loadInitialProducts() {
+            simulateAjaxCall(() => {
+                const container = document.getElementById('products-container');
+                container.innerHTML = '';
+                displayProducts(products.slice(0, 1));
+                productsLoaded = 1;
+            }, 1500); // 1.5 second delay to simulate loading
+        }
+
+        // Load more products
+        function loadMoreProducts() {
+            const button = document.querySelector('.load-more-btn');
+            button.disabled = true;
+            button.textContent = 'Loading...';
+
+            simulateAjaxCall(() => {
+                const nextProducts = products.slice(productsLoaded, productsLoaded + 1);
+                if (nextProducts.length > 0) {
+                    displayProducts(nextProducts);
+                    productsLoaded += nextProducts.length;
+                }
+                
+                if (productsLoaded >= products.length) {
+                    button.textContent = 'All Loaded';
+                    button.disabled = true;
+                } else {
+                    button.textContent = 'Load More Gear';
+                    button.disabled = false;
+                }
+            }, 2000); // 2 second delay
+        }
+
+        // Display products
+        function displayProducts(productsToShow) {
+            const container = document.getElementById('products-container');
+            const filteredProducts = currentFilter === 'all' 
+                ? productsToShow 
+                : productsToShow.filter(p => p.category === currentFilter);
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <h4>${product.name}</h4>
+                    <p>${product.description}</p>
+                    <div class="product-links">
+                        ${product.links.map(link => 
+                            `<a href="${link.url}" target="_blank">${link.text}</a>`
+                        ).join('')}
+                    </div>
+                `;
+                container.appendChild(productCard);
+            });
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Clear and reload products
+            const container = document.getElementById('products-container');
+            container.innerHTML = '<div class="loading">Filtering products...</div>';
+
+            simulateAjaxCall(() => {
+                container.innerHTML = '';
+                const filteredProducts = category === 'all' 
+                    ? products.slice(0, productsLoaded)
+                    : products.filter(p => p.category === category).slice(0, 1);
+                displayProducts(filteredProducts);
+            }, 1000);
+        }
+
+        // Add dynamic links after page load
+        function addDynamicLinks() {
+            simulateAjaxCall(() => {
+                const dynamicSection = document.createElement('div');
+                dynamicSection.className = 'surf-spot';
+                dynamicSection.innerHTML = `
+                    <h3>🏄‍♂️ Dynamic Surf Community</h3>
+                    <p>Connect with local surfers and join our community events.</p>
+                    <a href="/community/events" class="read-more">View Events →</a>
+                    <a href="/community/forums" class="read-more">Join Forums →</a>
+                `;
+                
+                const mainContent = document.querySelector('.main-content');
+                mainContent.insertBefore(dynamicSection, mainContent.children[2]);
+            }, 3000); // 3 second delay
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInitialProducts();
+            addDynamicLinks();
+            addBase64Links();
+        });
+
+        // Add more dynamic content on scroll
+        let scrollCount = 0;
+        window.addEventListener('scroll', function() {
+            if (scrollCount === 0 && window.scrollY > 500) {
+                scrollCount++;
+                simulateAjaxCall(() => {
+                    const scrollSection = document.createElement('div');
+                    scrollSection.className = 'surf-spot';
+                    scrollSection.innerHTML = `
+                        <h3>🌊 Scroll-Triggered Content</h3>
+                        <p>This content only appears after scrolling down the page.</p>
+                        <a href="/hidden/scroll-content" class="read-more">Discover More →</a>
+                    `;
+                    
+                    const mainContent = document.querySelector('.main-content');
+                    mainContent.appendChild(scrollSection);
+                }, 1500);
+            }
+        });
+    </script>
 </body>
 </html> 
