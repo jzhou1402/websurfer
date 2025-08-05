@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NorCal Surf Adventures</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #74b9ff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #1e3c72;
+            border-bottom: 3px solid #74b9ff;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+        .category-list a {
+            color: #1e3c72;
+            text-decoration: none;
+            padding: 0.5rem;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .category-list a:hover {
+            background: #e3f2fd;
+        }
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .social-links {
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: #1e3c72;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🌊 NorCal Surf Adventures</a>
+            <div class="nav-links">
+                <a href="/spots">Surf Spots</a>
+                <a href="/about">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>About NorCal Surf Adventures</h1>
+            <p>Your guide to the legendary surf spots of Northern California</p>
+        </div>
+
+        <div class="content-grid">
+            <main class="main-content">
+                <section class="section">
+                    <h2>Our Mission</h2>
+                    <p>NorCal Surf Adventures is dedicated to sharing the beauty and challenge of Northern California's world-class surf spots. From the legendary big waves of Mavericks to the consistent breaks of Santa Cruz, we provide comprehensive information for surfers of all levels.</p>
+                    
+                    <p>Our team of experienced surfers and local experts work together to bring you accurate surf reports, detailed spot guides, and insider knowledge about the best times to catch waves along the NorCal coast.</p>
+                </section>
+
+                <section class="section">
+                    <h2>Contact Information</h2>
+                    <p>Have questions about surf spots or want to share your own experiences? Get in touch with us!</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-top: 1rem;">
+                        <p><strong>Email:</strong> info@norcalsurfadventures.com</p>
+                        <p><strong>Phone:</strong> (415) 555-SURF</p>
+                        <p><strong>Location:</strong> San Francisco Bay Area</p>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="sidebar">
+                <section class="section">
+                    <h2>Legal</h2>
+                    <ul class="category-list">
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/terms-of-service">Terms of Service</a></li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 NorCal Surf Adventures. All rights reserved.</p>
+        <div class="social-links">
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+        </div>
+    </footer>
+</body>
+</html> 

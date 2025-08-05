@@ -15,8 +15,18 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         """Handle GET requests with custom routing"""
         path = self.path
         
+        # Handle base64 decode redirects
+        if path.startswith('/decode/'):
+            self.handle_base64_redirect(path)
+            return
+        
+        # Handle gallery pages
+        if path == '/gallery/mavericks-photos/':
+            self.send_gallery_page()
+            return
+        
         # Handle base64 decoded internal pages (leaf nodes)
-        if path in ['/gallery/mavericks-photos/', '/gear/wetsuit-guide/',
+        if path in ['/gear/wetsuit-guide/',
                    '/conditions/weather-reports/', '/spots/surf-reports/',
                    '/spots/tide-reports/', '/dynamic/surf-report/',
                    '/dynamic/forecast/']:
@@ -41,6 +51,16 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_main_page()
             return
         
+        # Serve the spots page
+        if path == '/spots':
+            self.send_spots_page()
+            return
+        
+        # Serve the about page
+        if path == '/about':
+            self.send_about_page()
+            return
+        
         # Default to 404 for unknown paths
         self.send_404_response(path)
 
@@ -56,6 +76,63 @@ class SurfAdventuresHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(f.read())
         except FileNotFoundError:
             self.wfile.write(b"<h1>Error: index.html not found</h1>")
+
+    def send_spots_page(self):
+        """Send the spots HTML page"""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Read and serve the spots.html file
+        try:
+            with open('spots.html', 'rb') as f:
+                self.wfile.write(f.read())
+        except FileNotFoundError:
+            self.wfile.write(b"<h1>Error: spots.html not found</h1>")
+
+    def send_about_page(self):
+        """Send the about HTML page"""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Read and serve the about.html file
+        try:
+            with open('about.html', 'rb') as f:
+                self.wfile.write(f.read())
+        except FileNotFoundError:
+            self.wfile.write(b"<h1>Error: about.html not found</h1>")
+
+    def handle_base64_redirect(self, path):
+        """Handle base64 encoded redirects"""
+        try:
+            # Extract base64 string from path
+            base64_string = path.replace('/decode/', '')
+            
+            # Decode the base64 string
+            decoded_path = base64.b64decode(base64_string).decode('utf-8')
+            
+            # Redirect to the decoded path
+            self.send_response(302)
+            self.send_header('Location', decoded_path)
+            self.end_headers()
+            
+        except Exception as e:
+            # If decoding fails, send 404
+            self.send_404_response(path)
+
+    def send_gallery_page(self):
+        """Send the gallery HTML page"""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Read and serve the gallery HTML file
+        try:
+            with open('gallery/mavericks-photos.html', 'rb') as f:
+                self.wfile.write(f.read())
+        except FileNotFoundError:
+            self.wfile.write(b"<h1>Error: gallery/mavericks-photos.html not found</h1>")
 
     def send_404_response(self, path):
         """Send a 404 error response"""
@@ -250,9 +327,12 @@ def run_server(port=None):
         print()
         print("📋 Available Routes:")
         print("   - Main page: /")
+        print("   - Surf spots page: /spots")
+        print("   - About page: /about")
+        print("   - Gallery page: /gallery/mavericks-photos/")
         print("   - 404 errors: /spots/mavericks/forecast, /spots/mavericks, etc.")
         print("   - Hanging request: /hang")
-        print("   - Base64 decoded pages: /gallery/mavericks-photos/, /gear/wetsuit-guide/, etc.")
+        print("   - Base64 decoded pages: /gear/wetsuit-guide/, etc.")
         print("   - Dynamic pages: /dynamic/surf-report/, /dynamic/forecast/")
         print()
         print("🔐 Base64 encoded links:")

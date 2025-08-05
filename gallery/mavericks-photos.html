@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mavericks Photo Gallery - NorCal Surf Adventures</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #74b9ff 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #74b9ff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #1e3c72;
+            border-bottom: 3px solid #74b9ff;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .photo-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid #74b9ff;
+        }
+        .photo-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        .photo-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .video-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-left: 4px solid #ff4757;
+        }
+        .video-section h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+        .video-link {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .video-link:hover {
+            background: #e74c3c;
+        }
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+        .category-list a {
+            color: #1e3c72;
+            text-decoration: none;
+            padding: 0.5rem;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .category-list a:hover {
+            background: #e3f2fd;
+        }
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🌊 NorCal Surf Adventures</a>
+            <div class="nav-links">
+                <a href="/spots">Surf Spots</a>
+                <a href="/about">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>🏄‍♂️ Mavericks Photo Gallery</h1>
+            <p>Amazing photos of the legendary big wave spot</p>
+        </div>
+
+        <div class="content-grid">
+            <main class="main-content">
+                <section class="section">
+                    <h2>Featured Photos</h2>
+                    
+                    <div class="photo-grid">
+                        <div class="photo-card">
+                            <h3>📸 60-Foot Monster Wave</h3>
+                            <p>One of the largest waves ever photographed at Mavericks. This legendary shot captures the raw power and beauty of the break during a massive swell in 2018.</p>
+                            <p><strong>Photographer:</strong> Clark Little</p>
+                            <p><strong>Date:</strong> January 15, 2018</p>
+                        </div>
+
+                        <div class="photo-card">
+                            <h3>📸 Surfer Riding the Beast</h3>
+                            <p>Professional surfer Garrett McNamara riding a massive wave at Mavericks. This photo shows the incredible skill and courage required to tackle these waves.</p>
+                            <p><strong>Photographer:</strong> Fred Pompermayer</p>
+                            <p><strong>Date:</strong> December 12, 2019</p>
+                        </div>
+
+                        <div class="photo-card">
+                            <h3>📸 Aerial View of the Break</h3>
+                            <p>Stunning drone footage showing the perfect formation of waves at Mavericks. This perspective reveals the complex wave dynamics that make this spot so challenging.</p>
+                            <p><strong>Photographer:</strong> Chris Burkard</p>
+                            <p><strong>Date:</strong> February 8, 2020</p>
+                        </div>
+                    </div>
+
+                    <div class="video-section">
+                        <h3>🎥 Watch: Mavericks Documentary</h3>
+                        <p>Experience the thrill and danger of surfing Mavericks in this incredible documentary featuring interviews with legendary surfers and stunning footage of the biggest waves.</p>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="video-link" target="_blank">Watch on YouTube →</a>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="sidebar">
+                <section class="section">
+                    <h2>Related Links</h2>
+                    <ul class="category-list">
+                        <li><a href="/spots/mavericks">Mavericks Spot Guide</a></li>
+                        <li><a href="/spots/mavericks/conditions">Current Conditions</a></li>
+                        <li><a href="/gear/equipment-guide">Safety Equipment</a></li>
+                        <li><a href="/conditions/reports">Weather Reports</a></li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Photo Credits</h2>
+                    <p style="color: #666; font-size: 0.9rem;">
+                        All photos are used with permission from their respective photographers. 
+                        Special thanks to the Mavericks surf community for sharing these incredible moments.
+                    </p>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 NorCal Surf Adventures. All rights reserved.</p>
+    </footer>
+</body>
+</html> 

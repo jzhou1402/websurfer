@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NorCal Surf Adventures - West Coast Surfing</title>
+    <title>Surf Spots - NorCal Surf Adventures</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -162,25 +162,6 @@
         .category-list a:hover {
             background: #e3f2fd;
         }
-        .footer {
-            background: rgba(255, 255, 255, 0.95);
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid #e0e0e0;
-        }
-        .social-links {
-            margin-top: 1rem;
-        }
-        .social-links a {
-            color: #1e3c72;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-weight: 500;
-        }
-        .social-links a:hover {
-            text-decoration: underline;
-        }
         .featured-image {
             width: 100%;
             height: 200px;
@@ -193,97 +174,6 @@
             color: white;
             font-size: 1.2rem;
             font-weight: bold;
-        }
-        .wave-icon {
-            font-size: 2rem;
-            margin-right: 0.5rem;
-        }
-        .surf-shop {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border-left: 4px solid #74b9ff;
-        }
-        .shop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .load-more-btn {
-            background: #1e3c72;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .load-more-btn:hover {
-            background: #74b9ff;
-        }
-        .load-more-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            border: 1px solid #e0e0e0;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .product-card h4 {
-            color: #1e3c72;
-            margin-bottom: 0.5rem;
-        }
-        .product-card p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        .product-links {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .product-links a {
-            color: #1e3c72;
-            text-decoration: none;
-            font-size: 0.8rem;
-            padding: 0.2rem 0.5rem;
-            background: #e3f2fd;
-            border-radius: 3px;
-            transition: background-color 0.3s;
-        }
-        .product-links a:hover {
-            background: #74b9ff;
-            color: white;
-        }
-        .loading {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
-        .hidden {
-            display: none;
-        }
-        .base64-hint {
-            font-size: 0.7rem;
-            color: #999;
-            font-family: monospace;
-            margin-top: 0.5rem;
         }
         .nested-links {
             margin-top: 1rem;
@@ -318,8 +208,8 @@
 
     <div class="container">
         <div class="hero">
-            <h1>Ride the NorCal Waves</h1>
-            <p>Discover the legendary surf spots of Northern California's rugged coastline</p>
+            <h1>NorCal Surf Spots</h1>
+            <p>Explore the legendary surf spots of Northern California</p>
         </div>
 
         <div class="content-grid">
@@ -333,14 +223,19 @@
                         <h3>Mavericks - The Big Wave Mecca</h3>
                         <p>Located off the coast of Half Moon Bay, Mavericks is one of the most challenging big wave surf spots in the world. With waves reaching up to 60 feet, this legendary break is only for the most experienced surfers.</p>
                         
-                        <!-- 404 ERROR LINK (Requirement 2) -->
+                        <!-- NESTED LINKS -->
+                        <div class="nested-links">
+                            <h4>Related Resources:</h4>
+                            <a href="/spots/mavericks">Spot Details</a>
+                            <a href="/spots/mavericks/conditions">Current Conditions</a>
+                            <a href="/spots/mavericks/gallery">Photo Gallery</a>
+                        </div>
+                        
+                        <!-- 404 ERROR LINK -->
                         <a href="/spots/mavericks/forecast" class="read-more">Check Forecast →</a>
                         
-                        <!-- HANGING LINK (Requirement 3) -->
+                        <!-- HANGING LINK -->
                         <a href="/hang" class="read-more">Live Webcam →</a>
-                        
-                        <!-- BASE64 HIDDEN LINK (Requirement 4) -->
-                        <a href="/decode/L2dhbGxlcnkvbWF2ZXJpY2tzLXBob3Rvcy8=" class="base64-hint">Hidden Gallery Link</a>
                     </article>
 
                     <article class="surf-spot">
@@ -349,24 +244,20 @@
                         <h3>Steamer Lane - Santa Cruz Classic</h3>
                         <p>Steamer Lane in Santa Cruz is a world-famous right-hand point break that offers consistent waves year-round. This spot is known for its long, peeling waves and is a favorite among experienced surfers.</p>
                         <a href="/spots/steamer-lane" class="read-more">Read More →</a>
+                        <a href="https://www.surfline.com" class="external-link" target="_blank">Check Surfline Report</a>
                     </article>
-                </section>
-
-                <section class="section">
-                    <div class="surf-shop">
-                        <div class="shop-header">
-                            <h3>🏄‍♂️ NorCal Surf Shop</h3>
-                            <button class="load-more-btn" onclick="loadMoreProducts()">Load More Gear</button>
-                        </div>
-
-                        <div id="products-container">
-                            <div class="loading">Loading surf gear...</div>
-                        </div>
-                    </div>
                 </section>
             </main>
 
             <aside class="sidebar">
+                <section class="section">
+                    <h2>Surf Resources</h2>
+                    <ul class="category-list">
+                        <li><a href="/gear/equipment-guide">Equipment Guide</a></li>
+                        <li><a href="/conditions/reports">Weather Reports</a></li>
+                    </ul>
+                </section>
+
                 <section class="section">
                     <h2>Quick Links</h2>
                     <ul class="category-list">
@@ -377,88 +268,5 @@
             </aside>
         </div>
     </div>
-
-    <footer class="footer">
-        <p>&copy; 2024 NorCal Surf Adventures. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Simulate dynamic content loading
-        let productsLoaded = 0;
-        
-        const products = [
-            {
-                id: 1,
-                name: "Channel Islands Surfboard",
-                description: "High-performance shortboard for advanced surfers",
-                links: [
-                    { text: "View Details", url: "/shop/boards/channel-islands" },
-                    { text: "Buy Now", url: "https://www.channelislandssurfboards.com" }
-                ]
-            }
-        ];
-
-        // Load initial products
-        function loadInitialProducts() {
-            setTimeout(() => {
-                const container = document.getElementById('products-container');
-                container.innerHTML = '';
-                displayProducts(products.slice(0, 1));
-                productsLoaded = 1;
-            }, 1500);
-        }
-
-        // Load more products (DYNAMIC LINK - Requirement 5)
-        function loadMoreProducts() {
-            const button = document.querySelector('.load-more-btn');
-            button.disabled = true;
-            button.textContent = 'Loading...';
-
-            setTimeout(() => {
-                const container = document.getElementById('products-container');
-                
-                // Add dynamic link
-                const dynamicLink = document.createElement('div');
-                dynamicLink.className = 'product-card';
-                dynamicLink.innerHTML = `
-                    <h4>🌊 Dynamic Surf Report</h4>
-                    <p>Real-time conditions and forecasts for all NorCal spots.</p>
-                    <div class="product-links">
-                        <a href="/dynamic/surf-report">View Report</a>
-                        <a href="/dynamic/forecast">Extended Forecast</a>
-                    </div>
-                `;
-                container.appendChild(dynamicLink);
-                
-                button.textContent = 'All Loaded';
-                button.disabled = true;
-            }, 2000);
-        }
-
-        // Display products
-        function displayProducts(productsToShow) {
-            const container = document.getElementById('products-container');
-
-            productsToShow.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <h4>${product.name}</h4>
-                    <p>${product.description}</p>
-                    <div class="product-links">
-                        ${product.links.map(link => 
-                            `<a href="${link.url}" target="_blank">${link.text}</a>`
-                        ).join('')}
-                    </div>
-                `;
-                container.appendChild(productCard);
-            });
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadInitialProducts();
-        });
-    </script>
 </body>
 </html> 
